@@ -2,13 +2,11 @@
 Tiny Mud Server (tinymudserver)
 ========================================================
 
-Author: Nick Gammon
-Date:   27th July 2004
-Web:    http://www.gammon.com.au/
+Original Author: Nick Gammon
+Original Date:   27th July 2004
 
-Post questions, comments, bug reports to the forum at:
-
-  http://www.gammon.com.au/forum/
+Modified by: Octav Sandulescu and Steven Harrison
+Fork Date:   30th May 2011
 
 COPYRIGHT
 
@@ -18,48 +16,49 @@ in all copies.
 
  You may use it as a starting point for writing your own MUD server.
 
-CREDIT
-
- I would appreciated being credited in the event that you use this code.
 
 NO WARRANTY
 
  This software is provided "as is" without express or implied
 warranty, and with no claim as to its suitability for any purpose.
- 
+
+
 INSTALLATION
 
  The simplest way to compile the program is to type "make". This should use the
- enclosed "Makefile" to compile and link. If this doesn't work, to compile without
- using the makefile:
+ enclosed "Makefile" to compile and link. If this doesn't work, you're pretty
+ fucked.
 
-   gcc tinymudserver.cpp -o tinymudserver -g -Wall
 
 EXECUTION
 
  Run the server like this:
 
-  ./tinymudserver &
+  ./tinymudserver
+
 
 CONNECTING
 
- The default behaviour is to listen for connections on port 4000 (change a constant in 
- the code to alter this). To test the server you could connect to it like this:
+ The default behaviour is to listen for connections on port 4000 (change a
+ constant in the code to alter this). To test the server you could connect to it
+ like this:
 
   telnet localhost 4000
-  
-  There is an existing player file supplied, name "Nick" password "password". 
-  This player can use the goto, transfer, setflag, clearflag, and shutdown commands.
+
+  There is an existing player file supplied, name "Nick" password "password".
+  This player can use the goto, transfer, setflag, clearflag, and shutdown
+  commands.
+
 
 DESCRIPTION
 
- This program demonstrates a simple MUD (Multi-User Dungeon) server - in a single file. 
+ This program demonstrates a simple MUD (Multi-User Dungeon) server - in a single file.
 
  It does the following:
 
  * Accepts multiple connections from players
  * Maintains a list of connected players
- * Asks players for a name and password 
+ * Asks players for a name and password
  * Saves player files to disk (name, password, current room, player flags)
  * Implements the commands: quit, look, say, tell, help, goto, transfer, shutdown, setflag, clearflag
  * Implements movement commands (eg. n, s, e, w)
@@ -75,7 +74,8 @@ DESCRIPTION
  * Loads room descriptions and exits from a disk file
  * Loads messages from a disk file
  * Loads control parameters from a disk file
- 
+
+
 WHAT YOU COULD ADD
 
  As it stands the program is too simple to be used for a full MUD, however it could be the
