@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<messages>
+	<message>
+		<name>welcome</name>
+		<text>
+		<![CDATA[
+
+|-------------------- [RED]Tiny MUD Server[/color] --------------------|
+|
+| Written by Nick Gammon.
+|
+| July 2004.
+|
+| http://www.gammon.com.au/
+|
+| Welcome to tinymudserver version 2! Have fun. :)
+|---------------------------------------------------------|
+
+
+]]>
+		</text>
+	</message>
+	<message>
+		<name>motd</name>
+		<text>
+		<![CDATA[
+
+Message Of The Day (MOTD)
+
+Here is where you place announcements to be given to people once they have joined the game.
+
+]]>
+		</text>
+	</message>
+	<message>
+		<name>new_player</name>
+		<text>
+		<![CDATA[
+
+
+Welcome to our MUD! Please read the help files to become familiar with our rules. :)
+
+
+]]>
+		</text>
+	</message>
+	<message>
+		<name>existing_player</name>
+		<text>
+		<![CDATA[
+
+
+Welcome back! We hope you enjoy playing today.
+
+]]>
+		</text>
+	</message>
+	<message>
+		<name>help</name>
+		<text>
+		<![CDATA[
+
+
+---- HELP system ----
+
+look - look around
+quit - leave the game
+say (something) - talk to people in the current room
+tell (someone) (something) - talk to a single player
+shutdown - shut the MUD down
+help - this help text
+goto (room) - go to another room
+transfer (someone) [ (where) ] - transfer another player here, or to another room
+setflag (who) (what) - sets a flag for a player
+clearflag (who) (what) - clears a flag for a player
+
+
+]]>
+		</text>
+	</message>
+</messages>
