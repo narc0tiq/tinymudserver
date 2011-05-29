@@ -308,6 +308,14 @@ void DoTransfer(tPlayer * p, istream & sArgs)
 
 } // end of DoTransfer
 
+void DoInfo(tPlayer * p, istream & sArgs)
+{
+  tPlayer * ptarget = p->GetPlayer (sArgs, "Usage: info <who>");  // who
+  NoMore(p, sArgs);  // check no more input
+  *p << "Flags: for " << ptarget->playername << " : ";
+  copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
+  *p << "\n"; 
+} // end of DoShowFlags
 /* process commands when player is connected */
 
 void ProcessCommand(tPlayer * p, istream & sArgs)
@@ -334,20 +342,21 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 
 void LoadCommands()
 {
-	commandmap ["look"]		 = DoLook;		 // look around
-	commandmap ["l"]				= DoLook;		 // synonymm for look
-	commandmap ["quit"]		 = DoQuit;		 // bye bye
-	commandmap ["say"]			= DoSay;			// say something
-	commandmap ["\""]			 = DoSay;			// synonym for say
-	commandmap ["tell"]		 = DoTell;		 // tell someone
-	commandmap ["shut"] = DoShutdown; // shut MUD down
-	commandmap ["help"]		 = DoHelp;		 // show help message
-	commandmap ["goto"]		 = DoGoTo;		 // go to room
-	commandmap ["transfer"] = DoTransfer; // transfer someone else
-	commandmap ["setflag"]	= DoSetFlag;	// set a player's flag
-	commandmap ["clearflag"]= DoClearFlag;	// clear a player's flag
-	commandmap ["save"]		 = DoSave;			// save a player
-	commandmap ["chat"]		 = DoChat;			// chat
-	commandmap ["emote"]		= DoEmote;		 // emote
-	commandmap ["who"]			= DoWho;			 // who is on?
+	commandmap["look"]			= DoLook;				// look around
+	commandmap["l"]					= DoLook;				// synonymm for look
+	commandmap["quit"]			= DoQuit;				// bye bye
+	commandmap["say"]				= DoSay;				// say something
+	commandmap["\""]				= DoSay;				// synonym for say
+	commandmap["tell"]			= DoTell;				// tell someone
+	commandmap["shut"]			= DoShutdown;		// shut MUD down
+	commandmap["help"]			= DoHelp;				// show help message
+	commandmap["goto"]			= DoGoTo;				// go to room
+	commandmap["transfer"]	= DoTransfer;		// transfer someone else
+	commandmap["setflag"]		= DoSetFlag;		// set a player's flag
+	commandmap["clearflag"]	= DoClearFlag;	// clear a player's flag
+	commandmap["save"]			= DoSave;				// save a player
+	commandmap["chat"]			= DoChat;				// chat
+	commandmap["emote"]			= DoEmote;			// emote
+	commandmap["who"]				= DoWho;				// who is on?
+	commandmap["info"]			= DoInfo;				// Show information on the player.
 	} // end of LoadCommands
