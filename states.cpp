@@ -35,7 +35,7 @@ void PlayerEnteredGame (tPlayer * p, const string & message)
 
   // tell other players
   SendToAll (
-    "Player " + p->playername + " has joined the game from " + p->GetAddress () + ".\n", 
+    "Player " + p->playername + " has joined the game.\n", 
     p);
   
   // log it
