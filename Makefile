@@ -45,7 +45,7 @@ endif
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project (order is important)
 #---------------------------------------------------------------------------------
-LIBS 		:=	
+LIBS 		:=	-ltinyxml
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
