@@ -5,3 +5,7 @@
 *.d
 *.o
 
+tinymudserver
+
+players/*
+!players/Nick.player
