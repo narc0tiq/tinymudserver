@@ -89,7 +89,7 @@ void LoadRooms()
 	{
 		cerr << "Could not open rooms file: " << ROOMS_FILE << endl;
 		return;
-		}
+	}
 
 	while(!(fRooms.eof()))
 	{
@@ -112,7 +112,7 @@ void LoadRooms()
 		{
 			cerr << "Room " << vnum << " appears more than once in room file" << endl;
 			continue;
-			}
+		}
 
 		tRoom * room = new tRoom(FindAndReplace(description, "%r", "\n") + "\n");
 		roommap [vnum] = room;
@@ -153,6 +153,27 @@ void LoadRooms()
 
 } // end of LoadRooms
 
+void LoadScreens()
+{
+	string sLine;
+	ifstream fScreen(SCREEN_FILE, ios::in);
+	
+	if(!fScreen)
+	{
+		cerr << "Could not open rooms file: " << SCREEN_FILE << endl;
+		return;
+	}
+	
+	while(!(fScreen.eof()))
+	{
+		getline(fScreen, sLine);
+		screenLayout.append( sLine );
+		printf( "%s\n", screenLayout.c_str() );
+	}
+	
+	printf( "\n\n[%s]\n", screenLayout.c_str() );
+}
+
 // build up our commands map and connection states
 void LoadThings()
 {
@@ -164,5 +185,6 @@ void LoadThings()
 	LoadControlFile();
 	LoadMessages();
 	LoadRooms();
+	LoadScreens();
 
 } // end of LoadThings

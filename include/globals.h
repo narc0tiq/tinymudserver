@@ -27,4 +27,6 @@ extern bool	 bStopNow;			// when set, the MUD shuts down
 extern time_t tLastMessage;			// time we last sent a periodic message
 extern int		iControl;	// socket for accepting new connections
 
+extern string screenLayout;
+
 string TextFormatting( string sMessageText );

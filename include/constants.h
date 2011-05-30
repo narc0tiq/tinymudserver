@@ -20,6 +20,7 @@ static const string PLAYER_EXT		= ".player";			 // suffix for player files
 static const char * MESSAGES_FILE = "./system/messages.xml";	// messages
 static const char * CONTROL_FILE	= "./system/control.txt";	 // control file
 static const char * ROOMS_FILE		= "./rooms/rooms.txt";			// rooms file
+static const char * SCREEN_FILE		= "./system/screen.lay";			// rooms file
 // player names must consist of characters from this list
 static const string valid_player_name =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";

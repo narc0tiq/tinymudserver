@@ -40,9 +40,11 @@ set<string, ciLess> badnameset;
 // blocked IP addresses
 set<string> blockedIP;
 
+string screenLayout;
+
 string TextFormatting( string sMessageText )
 {
-	sMessageText = FindAndReplace(sMessageText, "%r", "\r\n");
+	sMessageText = FindAndReplace(sMessageText, "\r", "\r\n");
 	sMessageText = FindAndReplace(sMessageText, "[/color]", "\e[0m");
 	sMessageText = FindAndReplace(sMessageText, "[red]", "\e[0;31m");
 	sMessageText = FindAndReplace(sMessageText, "[green]", "\e[0;32m");
@@ -59,6 +61,7 @@ string TextFormatting( string sMessageText )
 	sMessageText = FindAndReplace(sMessageText, "[MAGENTA]", "\e[1;35m");
 	sMessageText = FindAndReplace(sMessageText, "[CYAN]", "\e[1;36m");
 	sMessageText = FindAndReplace(sMessageText, "[WHITE]", "\e[1;37m");
+	sMessageText = FindAndReplace(sMessageText, "[CLS]", "\e[2J\e[H");
 	
 	return sMessageText;
 }
