@@ -5,17 +5,14 @@
 		<text>
 		<![CDATA[
 
-|-------------------- [RED]Tiny MUD Server[/color] --------------------|
-|
-| Written by Nick Gammon.
-|
-| July 2004.
-|
-| http://www.gammon.com.au/
-|
-| Welcome to tinymudserver version 2! Have fun. :)
-|---------------------------------------------------------|
-
++------------------- [red]narc.ro MUD Server[/color] ------------------+
+| This is a test of a MUD that we are playing with to see |
+| if we could create a simple MUD system / adventure game |
+| for the livestreamers to play while we are online.      |
+|                                                         |
+| Originally wrote by Nick Gammon July 2004               |
+|                                                         |
++---------------------------------------------------------+
 
 ]]>
 		</text>
@@ -27,7 +24,7 @@
 
 Message Of The Day (MOTD)
 
-Here is where you place announcements to be given to people once they have joined the game.
+Welcome to the game world...
 
 ]]>
 		</text>
@@ -37,9 +34,7 @@ Here is where you place announcements to be given to people once they have joine
 		<text>
 		<![CDATA[
 
-
 Welcome to our MUD! Please read the help files to become familiar with our rules. :)
-
 
 ]]>
 		</text>
@@ -48,7 +43,6 @@ Welcome to our MUD! Please read the help files to become familiar with our rules
 		<name>existing_player</name>
 		<text>
 		<![CDATA[
-
 
 Welcome back! We hope you enjoy playing today.
 
@@ -59,7 +53,6 @@ Welcome back! We hope you enjoy playing today.
 		<name>help</name>
 		<text>
 		<![CDATA[
-
 
 ---- HELP system ----
 
@@ -73,7 +66,6 @@ goto (room) - go to another room
 transfer (someone) [ (where) ] - transfer another player here, or to another room
 setflag (who) (what) - sets a flag for a player
 clearflag (who) (what) - clears a flag for a player
-
 
 ]]>
 		</text>

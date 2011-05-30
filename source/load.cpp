@@ -45,45 +45,6 @@ void LoadControlFile()
 } // end of LoadControlFile
 
 // load messages stored on messages file
-/*
-void LoadMessages()
-{
-	ifstream fMessages(MESSAGES_FILE, ios::in);
-	if(!fMessages)
-	{
-		cerr << "Could not open messages file: " << MESSAGES_FILE << endl;
-		return;
-	}
-
-	while(!(fMessages.eof()))
-	{
-		string sMessageCode, sMessageText;
-		fMessages >> sMessageCode >> ws;
-		getline(fMessages, sMessageText);
-		if(!(sMessageCode.empty()))
-	{
-			sMessageText = FindAndReplace(sMessageText, "%r", "\r\n");
-			sMessageText = FindAndReplace(sMessageText, "[/color]", "\e[0m");
-			sMessageText = FindAndReplace(sMessageText, "[red]", "\e[0;31m");
-			sMessageText = FindAndReplace(sMessageText, "[green]", "\e[0;32m");
-			sMessageText = FindAndReplace(sMessageText, "[yellow]",	"\e[0;33m");
-			sMessageText = FindAndReplace(sMessageText, "[blue]", "\e[0;34m");
-			sMessageText = FindAndReplace(sMessageText, "[magenta]", "\e[0;35m");
-			sMessageText = FindAndReplace(sMessageText, "[cyan]", "\e[0;36m");
-			sMessageText = FindAndReplace(sMessageText, "[white]", "\e[0;37m");
-			sMessageText = FindAndReplace(sMessageText, "[grey]", "\e[1;30m");
-			sMessageText = FindAndReplace(sMessageText, "[RED]", "\e[1;31m");
-			sMessageText = FindAndReplace(sMessageText, "[GREEN]", "\e[1;32m");
-			sMessageText = FindAndReplace(sMessageText, "[YELLOW]", "\e[1;33m");
-			sMessageText = FindAndReplace(sMessageText, "[BLUE]", "\e[1;34m");
-			sMessageText = FindAndReplace(sMessageText, "[MAGENTA]", "\e[1;35m");
-			sMessageText = FindAndReplace(sMessageText, "[CYAN]", "\e[1;36m");
-			sMessageText = FindAndReplace(sMessageText, "[WHITE]", "\e[1;37m");
-			messagemap [tolower(sMessageCode)] = sMessageText;		}
-		} // end of read loop
-
-} // end of LoadMessages
-*/
 void LoadMessages()
 {
 	TiXmlElement* xmleMsgs = 0;
@@ -108,24 +69,7 @@ void LoadMessages()
 				
 				sMessageText = node->FirstChild( "text" )->ToElement()->GetText();
 				
-				sMessageText = FindAndReplace(sMessageText, "%r", "\r\n");
-				sMessageText = FindAndReplace(sMessageText, "[/color]", "\e[0m");
-				sMessageText = FindAndReplace(sMessageText, "[red]", "\e[0;31m");
-				sMessageText = FindAndReplace(sMessageText, "[green]", "\e[0;32m");
-				sMessageText = FindAndReplace(sMessageText, "[yellow]",	"\e[0;33m");
-				sMessageText = FindAndReplace(sMessageText, "[blue]", "\e[0;34m");
-				sMessageText = FindAndReplace(sMessageText, "[magenta]", "\e[0;35m");
-				sMessageText = FindAndReplace(sMessageText, "[cyan]", "\e[0;36m");
-				sMessageText = FindAndReplace(sMessageText, "[white]", "\e[0;37m");
-				sMessageText = FindAndReplace(sMessageText, "[grey]", "\e[1;30m");
-				sMessageText = FindAndReplace(sMessageText, "[RED]", "\e[1;31m");
-				sMessageText = FindAndReplace(sMessageText, "[GREEN]", "\e[1;32m");
-				sMessageText = FindAndReplace(sMessageText, "[YELLOW]", "\e[1;33m");
-				sMessageText = FindAndReplace(sMessageText, "[BLUE]", "\e[1;34m");
-				sMessageText = FindAndReplace(sMessageText, "[MAGENTA]", "\e[1;35m");
-				sMessageText = FindAndReplace(sMessageText, "[CYAN]", "\e[1;36m");
-				sMessageText = FindAndReplace(sMessageText, "[WHITE]", "\e[1;37m");
-				messagemap [tolower(sMessageCode)] = sMessageText;
+				messagemap[ tolower(sMessageCode) ] = sMessageText;
 			}
 		}
 	}

@@ -181,6 +181,7 @@ void tPlayer::ProcessRead()
 
 void tPlayer::ProcessWrite()
 {
+	outbuf = TextFormatting( outbuf );
 	/* we will loop attempting to write all in buffer, until write blocks */
 	while(s != NO_SOCKET && !outbuf.empty())
 	{
