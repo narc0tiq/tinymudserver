@@ -168,10 +168,7 @@ void LoadScreens()
 	{
 		getline(fScreen, sLine);
 		screenLayout.append( sLine );
-		printf( "%s\n", screenLayout.c_str() );
 	}
-	
-	printf( "\n\n[%s]\n", screenLayout.c_str() );
 }
 
 // build up our commands map and connection states
