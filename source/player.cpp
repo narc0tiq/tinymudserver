@@ -70,6 +70,19 @@ string tPlayer::getPlayerNameCentered( int size )
 	string retVal;
 	
 	retVal = playername;
+	
+	if( playername.length() < size )
+	{
+		retVal.insert( 0, ( size - playername.length() ) / 2, ' ' );
+		while( retVal.length() < size )
+			retVal.append( " " );
+	}
+	else
+	{
+		retVal.erase( size, retVal.length() - size );
+	}
+	
+	return retVal;
 }
 
 void tPlayer::ProcessException()
@@ -187,6 +200,11 @@ void tPlayer::ProcessRead()
 
 void tPlayer::ProcessWrite()
 {
+//	*p << "[CLS]" << screenLayout;
+
+	if( connstate == ePlaying )
+		outbuf.append( screenLayout );
+
 	outbuf = TextFormatting( outbuf, this );
 	/* we will loop attempting to write all in buffer, until write blocks */
 	while(s != NO_SOCKET && !outbuf.empty())

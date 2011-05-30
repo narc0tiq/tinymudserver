@@ -237,10 +237,10 @@ void ProcessNewConnection()
 						", from address " << address <<
 						", port " << port << endl;
 
-//		*p << "\nWelcome to the Tiny MUD Server version " << VERSION << "\n";
-//		*p << messagemap ["welcome"];	 // message from message file
-//		*p << p->prompt;		// initial prompt(Enter your name ...)
-		*p << "[CLS]" << screenLayout;
+		*p << "\nWelcome to the Tiny MUD Server version " << VERSION << "\n";
+		*p << messagemap ["welcome"];	 // message from message file
+		*p << p->prompt;		// initial prompt(Enter your name ...)
+//		*p << "[CLS]" << screenLayout;
 
 	} /* end of processing *all* new connections */
 } /* end of ProcessNewConnection */
