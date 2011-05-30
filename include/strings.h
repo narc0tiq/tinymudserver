@@ -16,7 +16,7 @@ struct ciEqualTo : binary_function <string, string, bool>
 	{
 		bool operator()(const unsigned char& c1, const unsigned char& c2) const
 		{ return tolower(c1) == tolower(c2); }
-		};	// end of compare_equal
+	};	// end of compare_equal
 
 	bool operator()(const string & s1, const string & s2) const
 	{
@@ -25,8 +25,8 @@ struct ciEqualTo : binary_function <string, string, bool>
 
 		// match if both at end
 		return result.first == s1.end() && result.second == s2.end();
-		}
-	}; // end of ciEqualTo
+	}
+}; // end of ciEqualTo
 
 // case-independent(ci) string less_than
 // returns true if s1 < s2
@@ -38,14 +38,14 @@ struct ciLess : binary_function <string, string, bool>
 	{
 		bool operator()(const unsigned char& c1, const unsigned char& c2) const
 		{ return tolower(c1) < tolower(c2); }
-		}; // end of compare_less
+	}; // end of compare_less
 
 	bool operator()(const string & s1, const string & s2) const
 	{
 		return lexicographical_compare
 					(s1.begin(), s1.end(), s2.begin(), s2.end(), compare_less());
-		}
-	}; // end of ciLess
+	}
+}; // end of ciLess
 
 // prototypes
 

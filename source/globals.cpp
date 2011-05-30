@@ -42,7 +42,7 @@ set<string> blockedIP;
 
 string screenLayout;
 
-string TextFormatting( string sMessageText )
+string TextFormatting( string sMessageText, class tPlayer *p )
 {
 	sMessageText = FindAndReplace(sMessageText, "\r", "\r\n");
 	sMessageText = FindAndReplace(sMessageText, "[/color]", "\e[0m");
@@ -62,6 +62,7 @@ string TextFormatting( string sMessageText )
 	sMessageText = FindAndReplace(sMessageText, "[CYAN]", "\e[1;36m");
 	sMessageText = FindAndReplace(sMessageText, "[WHITE]", "\e[1;37m");
 	sMessageText = FindAndReplace(sMessageText, "[CLS]", "\e[2J\e[H");
+	sMessageText = FindAndReplace(sMessageText, "[--PlayerName--]", p->getPlayerNameCentered( 16 ));
 	
 	return sMessageText;
 }

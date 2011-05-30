@@ -45,6 +45,8 @@ public:
 	bool closing;		 // true if they are about to leave us
 	std::set<string, ciLess> flags;	// player flags
 
+	string getPlayerNameCentered( int size );
+
 	tPlayer(const int sock, const int p, const string a)
 		: s(sock), port(p), address(a), closing(false)
 		{ Init(); } // ctor
@@ -56,7 +58,7 @@ public:
 			close(s);
 		if(connstate == ePlaying)
 			Save();					// auto-save on close
-		};
+	};
 
 	void Init()
 	{
@@ -64,7 +66,7 @@ public:
 		room = INITIAL_ROOM;
 		flags.clear();
 		prompt = "Enter your name, or 'new' to create a new character ...	";
-		}
+	}
 
 	// what's our socket?
 	int GetSocket() const { return s; }
@@ -81,7 +83,7 @@ public:
 	{
 		outbuf += MAKE_STRING(i);
 		return *this;
-		}
+	}
 
 	void ClosePlayer() { closing = true; }		// close this player's connection
 
@@ -101,7 +103,6 @@ public:
 
 	void DoCommand(const string & command);	// simulate player input(eg. look)
 	string GetAddress() const { return address; }	// return player IP address
-
 };
 
 // player list type
@@ -130,7 +131,7 @@ class player_output_iterator : public std::iterator <std::output_iterator_tag, v
 	{
 		player_ << rhs << delim_;
 		return *this;
-		}
+	}
 
 	// dereference - no operation, returns reference to itself
 	player_output_iterator<T>& operator*()		 { return *this; }
@@ -154,7 +155,7 @@ struct findPlayerName
 	bool operator()(const tPlayer * p) const
 	{
 		return p->IsPlaying() && ciStringEqual(p->playername, name);
-		} // end of operator()
+	} // end of operator()
 };	// end of findPlayerName
 
 // find a player by name

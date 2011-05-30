@@ -32,7 +32,7 @@ void NoMore(tPlayer * p, istream & sArgs)
 	getline(sArgs, sLine);
 	if(!sLine.empty())
 		throw runtime_error("Unexpected input: " + sLine);
-	} // end of NoMore
+} // end of NoMore
 
 // helper function for say, tell, chat, etc.
 string GetMessage(istream & sArgs, const string & noMessageError)
@@ -43,7 +43,7 @@ string GetMessage(istream & sArgs, const string & noMessageError)
 	if(message.empty()) // better have something
 		throw runtime_error(noMessageError);
 	return message;
-	} // end of GetMessage
+} // end of GetMessage
 
 // helper function for get a flag
 string GetFlag(istream & sArgs, const string & noFlagError)
@@ -55,7 +55,7 @@ string GetFlag(istream & sArgs, const string & noFlagError)
 	if(flag.find_first_not_of(valid_player_name) != string::npos)
 		throw runtime_error("Flag name not valid.");
 	return flag;
-	} // end of GetFlag
+} // end of GetFlag
 
 void PlayerToRoom(tPlayer * p,			 // which player
 									const int & vnum,	 // which room
@@ -88,7 +88,7 @@ void DoDirection(tPlayer * p, const string & sArgs)
 								p->playername + " goes " + sArgs + "\n",
 								p->playername + " enters.\n");
 
-	} // end of DoDirection
+} // end of DoDirection
 
 /* quit */
 
@@ -103,10 +103,10 @@ void DoQuit(tPlayer * p, istream & sArgs)
 		*p << "See you next time!\n";
 		cout << "Player " << p->playername << " has left the game.\n";
 		SendToAll("Player " + p->playername + " has left the game.\n", p);
-		} /* end of properly connected */
+	} /* end of properly connected */
 
 	p->ClosePlayer();
-	} // end of DoQuit
+} // end of DoQuit
 
 /* look */
 
@@ -130,7 +130,7 @@ void DoLook(tPlayer * p, istream & sArgs)
 				 exititer != r->exits.end(); ++exititer)
 			*p << exititer->first << " ";
 		*p << "\n";
-		}
+	}
 
 	/* list other players in the same room */
 
@@ -149,14 +149,12 @@ void DoLook(tPlayer * p, istream & sArgs)
 			else
 				*p << ", ";
 			*p << otherp->playername;
-			}
-		}	 /* end of looping through all players */
+		}
+	}	 /* end of looping through all players */
 
 	/* If we listed anyone, finish up the line with a period, newline */
 	if(iOthers)
 		*p << ".\n";
-
-
 } // end of DoLook
 
 /* say <something> */
@@ -171,7 +169,6 @@ void DoSay(tPlayer * p, istream & sArgs)
 } // end of DoSay
 
 /* tell <someone> <something> */
-
 void DoTell(tPlayer * p, istream & sArgs)
 {
 	p->NeedNoFlag("gagged"); // can't if gagged
@@ -216,8 +213,8 @@ void DoWho(tPlayer * p, istream & sArgs)
 			*p << "	" << pTarget->playername <<
 						" in room " << pTarget->room << "\n";
 			++count;
-			} // end of if playing
-		} // end of doing each player
+		} // end of if playing
+	} // end of doing each player
 
 	*p << count << " player(s)\n";
 } // end of DoWho
@@ -283,7 +280,7 @@ void DoGoTo(tPlayer * p, istream & sArgs)
 								p->playername + " disappears in a puff of smoke!\n",
 								p->playername + " appears in a puff of smoke!\n");
 
-	} // end of DoGoTo
+} // end of DoGoTo
 
 void DoTransfer(tPlayer * p, istream & sArgs)
 {
@@ -320,7 +317,6 @@ void DoInfo(tPlayer * p, istream & sArgs)
 
 void ProcessCommand(tPlayer * p, istream & sArgs)
 {
-
 	string command;
 	sArgs >> command >> ws;	 // get command, eat whitespace after it
 
@@ -336,7 +332,7 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 			 throw runtime_error("Huh?");			// don't get it
 
 		command_iter->second(p, sArgs);	// execute command(eg. DoLook)
-		}
+	}
 } /* end of ProcessCommand */
 
 
@@ -359,4 +355,4 @@ void LoadCommands()
 	commandmap["emote"]			= DoEmote;			// emote
 	commandmap["who"]				= DoWho;				// who is on?
 	commandmap["info"]			= DoInfo;				// Show information on the player.
-	} // end of LoadCommands
+} // end of LoadCommands

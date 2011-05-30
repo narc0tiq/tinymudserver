@@ -65,6 +65,13 @@ tPlayer * tPlayer::GetPlayer(istream & args, const string & noNameMessage, const
 	return p;
 } // end of GetPlayer
 
+string tPlayer::getPlayerNameCentered( int size )
+{
+	string retVal;
+	
+	retVal = playername;
+}
+
 void tPlayer::ProcessException()
 {
 	/* signals can cause exceptions, don't get too excited. :) */
@@ -89,9 +96,9 @@ void tPlayer::Save()
 {
 	ofstream f((PLAYER_DIR + playername + PLAYER_EXT).c_str(), ios::out);
 	if(!f)
-{
-	cerr << "Could not write to file for player " << playername << endl;
-	return;
+	{
+		cerr << "Could not write to file for player " << playername << endl;
+		return;
 	}
 
 	// write player details
@@ -147,7 +154,7 @@ void tPlayer::ProcessRead()
 		if(errno != EWOULDBLOCK)
 			perror("read from player");
 		return;
-		}
+	}
 
 	if(nRead <= 0)
 	{
@@ -156,7 +163,7 @@ void tPlayer::ProcessRead()
 		s = NO_SOCKET;
 		DoCommand("quit");	// tell others the s/he has left
 		return;
-		}
+	}
 
 	inbuf += string(&buf [0], nRead);		/* add to input buffer */
 
@@ -171,8 +178,7 @@ void tPlayer::ProcessRead()
 		inbuf = inbuf.substr(i + 1, string::npos); /* get rest of string */
 
 		ProcessPlayerInput(this, Trim(sLine));	/* now, do something with it */
-		}
-
+	}
 } /* end of tPlayer::ProcessRead */
 
 /* Here when we can send stuff to the player. We are allowing for large
@@ -181,7 +187,7 @@ void tPlayer::ProcessRead()
 
 void tPlayer::ProcessWrite()
 {
-	outbuf = TextFormatting( outbuf );
+	outbuf = TextFormatting( outbuf, this );
 	/* we will loop attempting to write all in buffer, until write blocks */
 	while(s != NO_SOCKET && !outbuf.empty())
 	{
@@ -198,7 +204,7 @@ void tPlayer::ProcessWrite()
 			if(errno != EWOULDBLOCK )
 				perror("send to player");	/* some other error? */
 			return;
-			}
+		}
 
 		// remove what we successfully sent from the buffer
 		outbuf.erase(0, nWrite);
@@ -207,8 +213,7 @@ void tPlayer::ProcessWrite()
 		if(nWrite < iLength)
 			 break;
 
-		} /* end of having write loop */
-
+	} /* end of having write loop */
 }	 /* end of tPlayer::ProcessWrite	*/
 
 // functor for sending messages to all players
@@ -226,7 +231,7 @@ struct sendToPlayer
 	{
 		if(p->IsPlaying() && p != except &&(room == 0 || p->room == room))
 			*p << message;
-		} // end of operator()
+	} // end of operator()
 };	// end of sendToPlayer
 
 // send message to all connected players

@@ -37,7 +37,7 @@ void LoadControlFile()
 	{
 		cerr << "Could not open control file: " << CONTROL_FILE << endl;
 		return;
-		}
+	}
 
 	LoadSet(fControl, directionset); // possible directions, eg. n, s, e, w
 	LoadSet(fControl, badnameset);	 // bad names for new players, eg. new, quit, look, admin
@@ -131,7 +131,7 @@ void LoadRooms()
 			{
 				cerr << "Bad vnum for exit " << dir << " for room " << vnum << endl;
 				continue;
-				}
+			}
 
 			// direction must be valid(eg. n, s, e, w) or it won't be recognised
 			set<string>::const_iterator direction_iter = directionset.find(dir);
@@ -140,7 +140,7 @@ void LoadRooms()
 				cerr << "Direction " << dir << " for room " << vnum
 						 << " not in list of directions in control file" << endl;
 				continue;
-				}
+			}
 
 			// stop if nonsense
 			if(dir.empty() || dir_vnum == 0)
@@ -148,9 +148,8 @@ void LoadRooms()
 
 			room->exits [dir] = dir_vnum;	 // add exit
 
-			} // end of getting each direction
-		} // end of read loop
-
+		} // end of getting each direction
+	} // end of read loop
 } // end of LoadRooms
 
 void LoadScreens()

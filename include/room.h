@@ -16,7 +16,7 @@ class tRoom
 
 	// ctor
 	tRoom(const string & s) : description(s) {}
-	};	// end of class tRoom
+};	// end of class tRoom
 
 // we will use a map of rooms
 typedef std::map <int, tRoom*> tRoomMap;

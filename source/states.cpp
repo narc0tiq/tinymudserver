@@ -62,7 +62,7 @@ void ProcessPlayerName(tPlayer * p, istream & sArgs)
 	{
 		p->connstate = eAwaitingNewName;
 		p->prompt = "Please choose a name for your new character ... ";
-		}	 // end of new player
+	}	 // end of new player
 	else
 	{	 // old player
 
@@ -72,8 +72,7 @@ void ProcessPlayerName(tPlayer * p, istream & sArgs)
 		p->connstate = eAwaitingPassword;
 		p->prompt = "Enter your password ... ";
 		p->badPasswordCount = 0;
-		} // end of old player
-
+	} // end of old player
 } /* end of ProcessPlayerName */
 
 void ProcessNewPlayerName(tPlayer * p, istream & sArgs)
@@ -106,8 +105,8 @@ void ProcessNewPlayerName(tPlayer * p, istream & sArgs)
 
 void ProcessNewPassword(tPlayer * p, istream & sArgs)
 {
-	 string password;
-	 sArgs >> password;
+	string password;
+	sArgs >> password;
 
 	/* password can't be blank */
 	if(password.empty())
@@ -121,8 +120,8 @@ void ProcessNewPassword(tPlayer * p, istream & sArgs)
 
 void ProcessConfirmPassword(tPlayer * p, istream & sArgs)
 {
-	 string password;
-	 sArgs >> password;
+	string password;
+	sArgs >> password;
 
 	// password must agree
 	if(password != p->password)
@@ -130,7 +129,7 @@ void ProcessConfirmPassword(tPlayer * p, istream & sArgs)
 		p->connstate = eAwaitingNewPassword;
 		p->prompt = "Choose a password for " + p->playername + " ... ";
 		throw runtime_error("Password and confirmation do not agree.");
-		}
+	}
 
 	// that player might have been created while we were choosing a password, so check again
 	ifstream f((PLAYER_DIR + tocapitals(password) + PLAYER_EXT).c_str(), ios::in);
@@ -139,7 +138,7 @@ void ProcessConfirmPassword(tPlayer * p, istream & sArgs)
 		p->connstate = eAwaitingNewName;
 		p->prompt = "Please choose a name for your new character ... ";	// re-prompt for name
 		throw runtime_error("That player already exists, please choose another name.");
-		}
+	}
 
 	// New player now in the game
 	PlayerEnteredGame(p, messagemap ["new_player"]);
@@ -166,12 +165,12 @@ void ProcessPlayerPassword(tPlayer * p, istream & sArgs)
 			p->ClosePlayer();
 			p->prompt = "Goodbye.\n";
 			throw runtime_error("You are not permitted to connect.");
-			}
+		}
 
 		// OK, they're in!
 		PlayerEnteredGame(p, messagemap ["existing_player"]);
 
-		} // end of try block
+	} // end of try block
 
 	// detect too many password attempts
 	catch(runtime_error & e)
@@ -180,9 +179,9 @@ void ProcessPlayerPassword(tPlayer * p, istream & sArgs)
 		{
 			*p << "Too many attempts to guess the password!\n";
 			p->Init();
-			}
-			throw;
 		}
+		throw;
+	}
 
 } /* end of ProcessPlayerPassword */
 

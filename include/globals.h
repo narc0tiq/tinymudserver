@@ -29,4 +29,4 @@ extern int		iControl;	// socket for accepting new connections
 
 extern string screenLayout;
 
-string TextFormatting( string sMessageText );
+string TextFormatting( string sMessageText, class tPlayer *p );

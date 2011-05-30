@@ -96,7 +96,7 @@ int InitComms()
 			throw runtime_error("listen");
 
 		tLastMessage = time(NULL);
-		}	// end of try block
+	}	// end of try block
 
 	// problem?
 	catch(runtime_error & e)
@@ -104,7 +104,7 @@ int InitComms()
 		cerr << "Cannot initialise comms ..." << endl;
 		perror(e.what());
 		return 1;
-		}
+	}
 
 	// standard termination signals
 	signal(SIGINT,	bailout);
@@ -112,7 +112,7 @@ int InitComms()
 	signal(SIGHUP,	bailout);
 
 	return 0;
-	}	 /* end of InitComms */
+}	 /* end of InitComms */
 
 
 /* close listening port */
@@ -132,7 +132,7 @@ void CloseComms()
 	// delete all rooms
 	for_each(roommap.begin(), roommap.end(), DeleteMapObject());
 
-	} /* end of CloseComms */
+} /* end of CloseComms */
 
 	// prepare for comms
 struct setUpDescriptors
@@ -153,13 +153,13 @@ struct setUpDescriptors
 				{
 					FD_SET( p->GetSocket(), &in_set	);
 					FD_SET( p->GetSocket(), &exc_set );
-					}
+				}
 
 				/* we are only interested in writing to sockets we have something for */
 				if(p->PendingOutput())
 					FD_SET( p->GetSocket(), &out_set );
-				} /* end of active player */
-		} // end of operator()
+			} /* end of active player */
+	} // end of operator()
 
 	int GetMax() const { return iMaxdesc; }
 
@@ -168,7 +168,6 @@ struct setUpDescriptors
 // handle comms
 struct processDescriptors
 {
-
 	// handle this player
 	void operator()(tPlayer * p)
 	{
@@ -183,8 +182,7 @@ struct processDescriptors
 			/* look for ones we can write to, provided they aren't closed */
 			if(p->Connected() && FD_ISSET(p->GetSocket(), &out_set))
 				p->ProcessWrite();
-		 } // end of operator()
-
+	} // end of operator()
 };	// end of processDescriptors
 
 /* new player has connected */
@@ -211,7 +209,7 @@ void ProcessNewConnection()
 
 			perror("accept");
 			return;
-			}
+		}
 
 		/* here on successful accept - make sure socket doesn't block */
 
@@ -219,7 +217,7 @@ void ProcessNewConnection()
 		{
 			perror("fcntl on player socket");
 			return;
-			}
+		}
 
 		string address = inet_ntoa( sa.sin_addr);
 		int port = ntohs(sa.sin_port);
@@ -230,7 +228,7 @@ void ProcessNewConnection()
 			cerr << "Rejected connection from " << address << endl;
 			close(s);
 			continue;
-			}
+		}
 
 		tPlayer * p = new tPlayer(s, port, address);
 		playerlist.push_back(p);
@@ -244,9 +242,8 @@ void ProcessNewConnection()
 //		*p << p->prompt;		// initial prompt(Enter your name ...)
 		*p << "[CLS]" << screenLayout;
 
-		} /* end of processing *all* new connections */
-
-	} /* end of ProcessNewConnection */
+	} /* end of processing *all* new connections */
+} /* end of ProcessNewConnection */
 
 void RemoveInactivePlayers()
 {
@@ -257,17 +254,17 @@ void RemoveInactivePlayers()
 		{
 			delete *i;
 			playerlist.erase(i++);
-			}
+		}
 		else
 			++i;
-		} /* end of looping through players */
+	} /* end of looping through players */
 } // end of RemoveInactivePlayers
 
 /* process player input - check connection state, and act accordingly */
 
 void ProcessPlayerInput(tPlayer * p, const string & s)
 {
-	 try
+	try
 	{
 		istringstream is(s);
 
@@ -276,13 +273,13 @@ void ProcessPlayerInput(tPlayer * p, const string & s)
 
 		if(si != statemap.end())
 			si->second(p, is);	// execute command(eg. ProcessCommand)
-		} // end of try block
+	} // end of try block
 
 	// all errors during input processing will be caught here
 	catch(runtime_error & e)
 	{
 		*p << e.what() << "\n";
-		}
+	}
 
 	*p << p->prompt;	 // re-prompt them
 
@@ -330,8 +327,8 @@ void MainLoop()
 			// handle all player input/output
 			for_each(playerlist.begin(), playerlist.end(),
 								processDescriptors());
-			} // end of something happened
+		} // end of something happened
 
-		}	while(!bStopNow);	 // end of looping processing input
+	}	while(!bStopNow);	 // end of looping processing input
 
 }	 // end of MainLoop
