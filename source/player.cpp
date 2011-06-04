@@ -23,6 +23,8 @@ warranty, and with no claim as to its suitability for any purpose.
 #include <iterator>
 #include <errno.h>
 
+#include "tinyxml.h"
+
 using namespace std;
 
 #include "utils.h"
@@ -65,7 +67,7 @@ tPlayer * tPlayer::GetPlayer(istream & args, const string & noNameMessage, const
 	return p;
 } // end of GetPlayer
 
-string tPlayer::getPlayerNameCentered( int size )
+string tPlayer::getPlayerNameCentered( unsigned int size )
 {
 	string retVal;
 	
@@ -90,7 +92,7 @@ void tPlayer::ProcessException()
 	/* signals can cause exceptions, don't get too excited. :) */
 	cerr << "Exception on socket " << s << endl;
 } /* end of tPlayer::ProcessException */
-
+/*
 void tPlayer::Load()
 {
 	ifstream f((PLAYER_DIR + playername + PLAYER_EXT).c_str(), ios::in);
@@ -102,9 +104,39 @@ void tPlayer::Load()
 	f >> room;
 	f.ignore(numeric_limits<int>::max(), '\n'); // skip rest of this line
 	LoadSet(f, flags);	 // player flags(eg. can_shutdown)
-
+*/
+void tPlayer::Load()
+{
+	TiXmlDocument  xmlDoc( (PLAYER_DIR + playername + PLAYER_EXT).c_str() );
+	TiXmlElement  *xmleFlgs;
+	TiXmlNode     *node = 0;
+	bool loadOkay = xmlDoc.LoadFile();
+	
+	printf( "hello\n" );
+	
+	if( loadOkay )
+	{
+    TiXmlHandle 	xmlDocHandle( &xmlDoc );
+    
+    xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
+    if( xmleFlgs != NULL )
+    {
+			password = xmleFlgs->Attribute( "password" );
+			room = atoi( xmleFlgs->Attribute( "room" ) );
+      for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
+            node;
+            node = node->NextSibling( "flag" ) )
+      {
+        flags.insert( node->ToElement()->GetText() );
+      }
+    }
+	}
+	else
+	{
+    throw runtime_error("That player does not exist, type 'new' to create a new one.");
+	}
 } /* end of tPlayer::Load */
-
+/*
 void tPlayer::Save()
 {
 	ofstream f((PLAYER_DIR + playername + PLAYER_EXT).c_str(), ios::out);
@@ -119,8 +151,38 @@ void tPlayer::Save()
 	f << room << endl;
 	copy(flags.begin(), flags.end(), ostream_iterator<string>(f, " "));
 	f << endl;
+*/
 
+void tPlayer::Save()
+{
+	TiXmlDocument xmlDoc( (PLAYER_DIR + playername + PLAYER_EXT).c_str() );
+	TiXmlHandle 	xmlDocHandle( &xmlDoc );
+	TiXmlText		 	xmlNodeText( "" );
+	TiXmlElement 	root( "player" );
+	TiXmlElement	flags_( "flags" );
+	TiXmlElement	flag( "" );
+	std::set<string, ciLess>::iterator flagIter;
+	std::string tmp;
+	
+	root.SetAttribute( "password", password );
+	root.SetAttribute( "room", room );
+
+	flagIter = flags.begin();
+	for(; flagIter != flags.end(); ++flagIter )
+	{
+		flag.Clear();
+		flag.SetValue( "flag" );
+		tmp = *flagIter;
+		xmlNodeText.SetValue( tmp.c_str() );
+		flag.InsertEndChild( xmlNodeText );
+		flags_.InsertEndChild( flag );
+	}
+
+	root.InsertEndChild( flags_ );
+	xmlDoc.InsertEndChild( root );
+	xmlDoc.SaveFile();
 } /* end of tPlayer::Save */
+
 
 void tPlayer::DoCommand(const string & command)
 {
