@@ -48,7 +48,7 @@ public:
 	short maxhp;			// Maximum HP for the player
 	short curhp;			// Current HP for the player
 	short baseskl;		// Base skill for the player
-	
+
 	string getPlayerNameCentered( unsigned int size );
 
 	tPlayer(const int sock, const int p, const string a)
