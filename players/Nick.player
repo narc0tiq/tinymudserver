@@ -7,13 +7,6 @@
         <flag>can_transfer</flag>
         <flag>eep</flag>
     </flags>
-    <flags>
-        <flag>can_goto</flag>
-        <flag>can_setflag</flag>
-        <flag>can_shutdown</flag>
-        <flag>can_transfer</flag>
-        <flag>eep</flag>
-    </flags>
     <stats>
         <maxHP>24</maxHP>
         <curHP>24</curHP>
