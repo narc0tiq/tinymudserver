@@ -185,8 +185,8 @@ void LoadThings()
 	// load files
 	LoadControlFile();
 	LoadMessages();
-	LoadRooms();
-	LoadXMLRooms();
+//	LoadRooms();
+//	LoadXMLRooms();
 	LoadScreens();
 
 } // end of LoadThings

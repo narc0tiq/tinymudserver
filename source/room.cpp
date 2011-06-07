@@ -26,10 +26,17 @@ using namespace std;
 
 tRoom* FindRoom(const int& vnum)
 {
-	tRoomMapIterator roomiter = roommap.find (vnum);
+	tRoomMapIterator roomiter = roommap.find( vnum );
 
-	if (roomiter == roommap.end ())
-		throw runtime_error (MAKE_STRING("Room number " << vnum << " does not exist."));
+	if (roomiter == roommap.end())
+	{
+		tRoom* room = LoadRoom( vnum );
+
+		if( room == NULL )
+			throw runtime_error( MAKE_STRING( "Room number " << vnum << " does not exist." ));
+
+		return room;
+	}
 
 	return roomiter->second;
 }
@@ -84,6 +91,8 @@ tRoom* LoadRoom(const int& vnum)
 
 		newroom->exits[direction] = target;
 	}
+
+	roommap[vnum] = newroom;
 
 	return newroom;
 }
