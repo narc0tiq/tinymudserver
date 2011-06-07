@@ -92,11 +92,23 @@ void tPlayer::ProcessException()
 	/* signals can cause exceptions, don't get too excited. :) */
 	cerr << "Exception on socket " << s << endl;
 } /* end of tPlayer::ProcessException */
+/*
+void tPlayer::Load()
+{
+	ifstream f((PLAYER_DIR + playername + PLAYER_EXT).c_str(), ios::in);
+	if(!f)
+		throw runtime_error("That player does not exist, type 'new' to create a new one.");
 
+	// read player details
+	f >> password;
+	f >> room;
+	f.ignore(numeric_limits<int>::max(), '\n'); // skip rest of this line
+	LoadSet(f, flags);	 // player flags(eg. can_shutdown)
+*/
 void tPlayer::Load()
 {
 	TiXmlDocument  xmlDoc( (PLAYER_DIR + playername + PLAYER_EXT).c_str() );
-	TiXmlElement  *xmlePlr;
+	TiXmlElement  *xmleFlgs;
 	TiXmlNode     *node = 0;
 	bool loadOkay = xmlDoc.LoadFile();
 
@@ -106,36 +118,39 @@ void tPlayer::Load()
 	{
 		TiXmlHandle xmlDocHandle( &xmlDoc );
 
-		xmlePlr = xmlDocHandle.FirstChild( "player" ).Element();
-		if( xmlePlr != NULL )
+		xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
+		if( xmleFlgs != NULL )
 		{
-			password = xmlePlr->Attribute( "password" );
-			room = atoi( xmlePlr->Attribute( "room" ) );
-			for( node = xmlePlr->FirstChild( "flags" )->FirstChild( "flag" );
+			password = xmleFlgs->Attribute( "password" );
+			room = atoi( xmleFlgs->Attribute( "room" ) );
+			for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
 				 node;
 				 node = node->NextSibling( "flag" ) )
 			{
 				flags.insert( node->ToElement()->GetText() );
 			}
-
-			node = xmlePlr->FirstChild( "stats" );
-
-			printf( "hello\n" );
-
-			if( node )
-			{
-				maxhp = atoi( node->FirstChild( "maxHP" )->FirstChild()->Value() );
-				curhp = atoi( node->FirstChild( "curHP" )->FirstChild()->Value() );
-				baseskl = atoi( node->FirstChild( "baseSkill" )->FirstChild()->Value() );
-			}
-			else
-				throw runtime_error( "Player data corrupt, please contact an admin for assistance" );
 		}
 	}
 	else
 		throw runtime_error( "That player does not exist, type 'new' to create a new one." );
 
 } /* end of tPlayer::Load */
+/*
+void tPlayer::Save()
+{
+	ofstream f((PLAYER_DIR + playername + PLAYER_EXT).c_str(), ios::out);
+	if(!f)
+	{
+		cerr << "Could not write to file for player " << playername << endl;
+		return;
+	}
+
+	// write player details
+	f << password << endl;
+	f << room << endl;
+	copy(flags.begin(), flags.end(), ostream_iterator<string>(f, " "));
+	f << endl;
+*/
 
 void tPlayer::Save()
 {
@@ -146,12 +161,8 @@ void tPlayer::Save()
 	TiXmlElement 	root( "player" );
 	TiXmlElement	flags_( "flags" );
 	TiXmlElement	flag( "" );
-	TiXmlElement	stats( "stats" );
-	TiXmlElement  stat( "" );
-	char stmp[1024];
-
 	std::set<string, ciLess>::iterator flagIter;
-	string tmp;
+	std::string tmp;
 
 	root.SetAttribute( "password", password );
 	root.SetAttribute( "room", room );
@@ -166,31 +177,8 @@ void tPlayer::Save()
 		flag.InsertEndChild( xmlNodeText );
 		flags_.InsertEndChild( flag );
 	}
-	root.InsertEndChild( flags_ );
 
 	root.InsertEndChild( flags_ );
-	stat.Clear();
-	stat.SetValue( "maxHP" );
-	sprintf( stmp, "%d", maxhp );
-	xmlNodeText.SetValue( stmp );
-	stat.InsertEndChild( xmlNodeText );
-	stats.InsertEndChild( stat );
-
-	stat.Clear();
-	stat.SetValue( "curHP" );
-	sprintf( stmp, "%d", curhp );
-	xmlNodeText.SetValue( stmp );
-	stat.InsertEndChild( xmlNodeText );
-	stats.InsertEndChild( stat );
-
-	stat.Clear();
-	stat.SetValue( "baseSkill" );
-	sprintf( stmp, "%d", baseskl );
-	xmlNodeText.SetValue( stmp );
-	stat.InsertEndChild( xmlNodeText );
-	stats.InsertEndChild( stat );
-
-	root.InsertEndChild( stats );
 	xmlDoc.LinkEndChild( decl );
 	xmlDoc.InsertEndChild( root );
 	xmlDoc.SaveFile();
