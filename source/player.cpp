@@ -116,20 +116,20 @@ void tPlayer::Load()
 
 	if( loadOkay )
 	{
-	TiXmlHandle 	xmlDocHandle( &xmlDoc );
+		TiXmlHandle xmlDocHandle( &xmlDoc );
 
-	xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
-	if( xmleFlgs != NULL )
-	{
-		password = xmleFlgs->Attribute( "password" );
-		room = atoi( xmleFlgs->Attribute( "room" ) );
-		for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
-			node;
-			node = node->NextSibling( "flag" ) )
+		xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
+		if( xmleFlgs != NULL )
 		{
-			flags.insert( node->ToElement()->GetText() );
+			password = xmleFlgs->Attribute( "password" );
+			room = atoi( xmleFlgs->Attribute( "room" ) );
+			for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
+				node;
+				node = node->NextSibling( "flag" ) )
+			{
+				flags.insert( node->ToElement()->GetText() );
+			}
 		}
-	}
 	}
 	else
 	{
