@@ -21,6 +21,10 @@ extern std::map<tConnectionStates, tHandler> statemap;
 extern std::map<std::string, string, ciLess> messagemap;
 // directions
 extern std::set<std::string, ciLess> directionset;
+// positive responses
+extern std::set<string, ciLess> posResp;
+// negative responses
+extern std::set<string, ciLess> negResp;
 
 // global variables
 extern bool	 bStopNow;			// when set, the MUD shuts down
@@ -30,3 +34,5 @@ extern int		iControl;	// socket for accepting new connections
 extern string screenLayout;
 
 string TextFormatting( string sMessageText, class tPlayer *p );
+
+int dieRoll( int sides );

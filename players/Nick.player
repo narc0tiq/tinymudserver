@@ -6,4 +6,9 @@
         <flag>can_transfer</flag>
         <flag>eep</flag>
     </flags>
+    <stats>
+        <maxHP>24</maxHP>
+        <curHP>24</curHP>
+        <baseSkill>12</baseSkill>
+    </stats>
 </player>

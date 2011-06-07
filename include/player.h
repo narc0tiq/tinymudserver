@@ -14,9 +14,10 @@ typedef enum
 	eAwaitingName,				// we want their player name
 	eAwaitingPassword,		// we want their old password
 
-	eAwaitingNewName,		 // they have typed 'new' and are being asked for a new name
-	eAwaitingNewPassword, // we want a new password
-	eConfirmPassword,		 // confirm the new password
+	eAwaitingNewName,			// they have typed 'new' and are being asked for a new name
+	eAwaitingNewPassword,	// we want a new password
+	eConfirmPassword,			// confirm the new password
+	eAwaitingStats,				// Awaiting stat confirmation
 
 	ePlaying							// this is the normal 'connected' mode
 } tConnectionStates;
@@ -44,7 +45,10 @@ public:
 	int room;				 // what room they are in
 	bool closing;		 // true if they are about to leave us
 	std::set<string, ciLess> flags;	// player flags
-
+	short maxhp;			// Maximum HP for the player
+	short curhp;			// Current HP for the player
+	short baseskl;		// Base skill for the player
+	
 	string getPlayerNameCentered( unsigned int size );
 
 	tPlayer(const int sock, const int p, const string a)

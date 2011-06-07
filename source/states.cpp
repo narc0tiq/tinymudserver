@@ -17,6 +17,7 @@ warranty, and with no claim as to its suitability for any purpose.
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 
 using namespace std;
 
@@ -140,9 +141,17 @@ void ProcessConfirmPassword(tPlayer * p, istream & sArgs)
 		throw runtime_error("That player already exists, please choose another name.");
 	}
 
-	// New player now in the game
-	PlayerEnteredGame(p, messagemap ["new_player"]);
+//	// New player now in the game
+//	PlayerEnteredGame(p, messagemap ["new_player"]);
 
+	// now setup the initial stats of the player
+	p->connstate = eAwaitingStats;
+	p->maxhp = dieRoll( 6 ) + dieRoll( 6 ) + 12;
+	p->curhp = p->maxhp;
+	p->baseskl = dieRoll( 6 ) + 6;
+
+	p->prompt = MAKE_STRING( "Your stats are:\nHP: " << p->maxhp
+		<< "\nBase Skill: " << p->baseskl << "\nAre these ok (yes to continue, anything else to re-roll." );
 } /* end of ProcessNewPassword */
 
 void ProcessPlayerPassword(tPlayer * p, istream & sArgs)
@@ -185,6 +194,25 @@ void ProcessPlayerPassword(tPlayer * p, istream & sArgs)
 
 } /* end of ProcessPlayerPassword */
 
+void ProcessStats( tPlayer * p, istream & sArgs )
+{
+	string response;
+	sArgs >> response;
+
+	if( ( posResp.find( response ) == posResp.end() ) || ( response.empty() ) )
+	{
+		p->maxhp = dieRoll( 6 ) + dieRoll( 6 ) + 12;
+		p->curhp = p->maxhp;
+		p->baseskl = dieRoll( 6 ) + 6;
+
+		p->prompt = MAKE_STRING( "Your stats are:\nHP: " << p->maxhp
+			<< "\nBase Skill: " << p->baseskl << "\nAre these ok (yes to continue, anything else to re-roll." );
+		return;
+	}
+
+	PlayerEnteredGame(p, messagemap ["new_player"]);
+}
+
 void LoadStates()
 {
 
@@ -192,10 +220,11 @@ void LoadStates()
 	statemap [eAwaitingName]				= ProcessPlayerName;		// existing player
 	statemap [eAwaitingPassword]		= ProcessPlayerPassword;
 
-	statemap [eAwaitingNewName]		 = ProcessNewPlayerName; // new player
-	statemap [eAwaitingNewPassword] = ProcessNewPassword;
-	statemap [eConfirmPassword]		 = ProcessConfirmPassword;
+	statemap [eAwaitingNewName]			= ProcessNewPlayerName; // new player
+	statemap [eAwaitingNewPassword]	= ProcessNewPassword;
+	statemap [eConfirmPassword]			= ProcessConfirmPassword;
+	statemap[ eAwaitingStats ]			= ProcessStats;
 
-	statemap [ePlaying]						 = ProcessCommand;	 // playing
+	statemap [ePlaying]							= ProcessCommand;	 // playing
 
 } // end of LoadStates
