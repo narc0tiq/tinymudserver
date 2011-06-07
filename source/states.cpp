@@ -62,9 +62,9 @@ void ProcessPlayerName(tPlayer * p, istream & sArgs)
 	{
 		p->connstate = eAwaitingNewName;
 		p->prompt = "Please choose a name for your new character ... ";
-	}	 // end of new player
+	} // end of new player
 	else
-	{	 // old player
+	{ // old player
 
 		p->playername = tocapitals(playername);
 		p->Load();	 // load player so we know the password etc.

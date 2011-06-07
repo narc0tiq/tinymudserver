@@ -124,17 +124,16 @@ void tPlayer::Load()
 			password = xmleFlgs->Attribute( "password" );
 			room = atoi( xmleFlgs->Attribute( "room" ) );
 			for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
-				node;
-				node = node->NextSibling( "flag" ) )
+				 node;
+				 node = node->NextSibling( "flag" ) )
 			{
 				flags.insert( node->ToElement()->GetText() );
 			}
 		}
 	}
 	else
-	{
-    throw runtime_error("That player does not exist, type 'new' to create a new one.");
-	}
+		throw runtime_error( "That player does not exist, type 'new' to create a new one." );
+
 } /* end of tPlayer::Load */
 /*
 void tPlayer::Save()
@@ -319,6 +318,5 @@ struct sendToPlayer
 // possibly only in one room(eg. for saying in a room)
 void SendToAll(const string & message, const tPlayer * ExceptThis, const int InRoom)
 {
-	for_each(playerlist.begin(), playerlist.end(),
-						sendToPlayer(message, ExceptThis, InRoom));
+	for_each(playerlist.begin(), playerlist.end(), sendToPlayer("\n" + message, ExceptThis, InRoom));
 } /* end of SendToAll */

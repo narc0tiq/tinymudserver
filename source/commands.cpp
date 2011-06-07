@@ -311,7 +311,7 @@ void DoInfo(tPlayer * p, istream & sArgs)
   NoMore(p, sArgs);  // check no more input
   *p << "Flags: for " << ptarget->playername << " : ";
   copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
-  *p << "\n"; 
+  *p << "\n";
 } // end of DoShowFlags
 /* process commands when player is connected */
 
