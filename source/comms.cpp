@@ -130,7 +130,7 @@ void CloseComms()
 	for_each(playerlist.begin(), playerlist.end(), DeleteObject());
 
 	// delete all rooms
-	for_each(roommap.begin(), roommap.end(), DeleteMapObject());
+	for_each(roommap.begin(), roommap.end(), DeleteMapObject()); // TODO: This should not be happening here!
 
 } /* end of CloseComms */
 
