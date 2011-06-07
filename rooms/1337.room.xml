@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Test Room">
+	<description><![CDATA[
+This room is a test. Specifically, a multiple-choice test. You're wondering how you managed to get in a piece of paper, but nonetheless, you're right here.
+]]>
+	</description>
+	<exits>
+		<exit direction="u" target="1000" />
+	</exits>
+</room>
