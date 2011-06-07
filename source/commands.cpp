@@ -117,14 +117,13 @@ void DoQuit(tPlayer * p, istream & sArgs)
 
 void DoLook(tPlayer * p, istream & sArgs)
 {
-
 	// TODO: add: look(thing)
-	NoMore(p, sArgs);	// check no more input
+	NoMore(p, sArgs); // check no more input
 
 	// find our current room, throws exception if not there
 	tRoom * r = FindRoom(p->room);
 
-	// show room description
+	*p << r->roomname << " (" << p->room << ")\n";
 	*p << r->description;
 
 	// show available exits
