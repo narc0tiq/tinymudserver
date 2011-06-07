@@ -18,6 +18,7 @@ using namespace std;
 
 #include "globals.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 // global variables
 bool	 bStopNow = false;			// when set, the MUD shuts down
@@ -49,6 +50,8 @@ string screenLayout;
 
 string TextFormatting( string sMessageText, class tPlayer *p )
 {
+	char tmp[1024];
+
 	sMessageText = FindAndReplace(sMessageText, "\r", "\r\n");
 	sMessageText = FindAndReplace(sMessageText, "[/color]",   "\e[0m");
 	sMessageText = FindAndReplace(sMessageText, "[black]",    "\e[22;30m");
@@ -81,6 +84,16 @@ string TextFormatting( string sMessageText, class tPlayer *p )
 	sMessageText = FindAndReplace(sMessageText, "[RCP]",  "\e[u");
 	sMessageText = FindAndReplace(sMessageText, "[HOME]", "\e[H");
 	sMessageText = FindAndReplace(sMessageText, "[EL]", "\e[2K");
+	if( p->curhp < p->maxhp / 3 )
+		sprintf( tmp, "\e[1;31m%d", p->curhp );
+	else if( p->curhp < ( p->maxhp / 3 ) << 1 )
+		sprintf( tmp, "\e[1;33m%d", p->curhp );
+	else
+		sprintf( tmp, "\e[1;32m%d", p->curhp );
+	sMessageText = FindAndReplace(sMessageText, "[HP]", tmp );
+	sprintf( tmp, "\e[1;37m%d", p->maxhp );
+	sMessageText = FindAndReplace(sMessageText, "[MHP]", tmp );
+	sMessageText = FindAndReplace(sMessageText, "[SKL]", "");
 	
 	return sMessageText;
 }
