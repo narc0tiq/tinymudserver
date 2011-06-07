@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Eastern Corridor">
+	<description><![CDATA[
+This east-west corridor looks like it could be interesting to follow.
+Unfortunately, the presence of an overwhelmingly massive pile of rubble makes it impossible for you to do so at this time.
+]]>
+	</description>
+	<exits>
+		<exit direction="w" target="1002" />
+	</exits>
+</room>

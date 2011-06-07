@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Training Room">
+	<description><![CDATA[
+This is the training room. One day you might receive all sorts of interesting training here. Perhaps you might even purchase shields and armour.
+Today, sadly, the room is pretty much deserted.
+]]>
+	</description>
+	<exits>
+		<exit direction="s" target="1000" />
+	</exits>
+</room>

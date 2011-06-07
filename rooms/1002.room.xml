@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Eastern Lounge">
+	<description><![CDATA[
+You lounge around in room 1002. The floors are carpeted with a sort of wool-nylon blend, so favoured in caverns these days.
+There is a corridor to the east.
+]]>
+	</description>
+	<exits>
+		<exit direction="w" target="1000" />
+		<exit direction="e" target="1005" />
+	</exits>
+</room>

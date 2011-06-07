@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Western Cave">
+	<description><![CDATA[
+This room looks as if it has been rough-hewn from the very granite that forms the basis of the world itself. Unfortunately, the general effect is spoiled somewhat by the presence of many audio CDs stuck to the wall with sticky tape.
+]]>
+	</description>
+	<exits>
+		<exit direction="e" target="1000" />
+	</exits>
+</room>
