@@ -261,27 +261,6 @@ void DoHelp(tPlayer * p, istream & sArgs)
 	*p << messagemap ["help"];
 } // end of DoHelp
 
-void DoGoTo(tPlayer * p, istream & sArgs)
-{
-	p->NeedFlag("can_goto");
-
-	int room;
-	sArgs >> room;
-
-	// check room number supplied OK
-	if(sArgs.fail())
-		throw runtime_error("Go to which room?");
-
-	NoMore(p, sArgs);	// check no more input
-
-	// move player
-	PlayerToRoom(p, room,
-								MAKE_STRING("You go to room " << room << "\n"),
-								p->playername + " disappears in a puff of smoke!\n",
-								p->playername + " appears in a puff of smoke!\n");
-
-} // end of DoGoTo
-
 void DoTransfer(tPlayer * p, istream & sArgs)
 {
 	p->NeedFlag("can_transfer");	// permissions
@@ -305,13 +284,13 @@ void DoTransfer(tPlayer * p, istream & sArgs)
 
 void DoTeleport(tPlayer * p, istream & sArgs)
 {
-	p->NeedFlag("can_transfer");	// permissions
+	p->NeedFlag("can_transfer");
 
 	int room;
 	sArgs >> room;
 
 	if(sArgs.fail())
-		throw runtime_error("Usage: teleport <where>");
+		throw runtime_error("Usage: tp <where>");
 
 	NoMore(p, sArgs); // check no more input
 
@@ -346,9 +325,9 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 		// otherwise, look up command in commands map
 		map<string, tHandler>::const_iterator command_iter = commandmap.find(command);
 		if(command_iter == commandmap.end())
-			 throw runtime_error("Huh?");			// don't get it
+			throw runtime_error("Huh?");
 
-		command_iter->second(p, sArgs);	// execute command(eg. DoLook)
+		command_iter->second(p, sArgs); // execute command(eg. DoLook)
 	}
 } /* end of ProcessCommand */
 
@@ -363,7 +342,6 @@ void LoadCommands()
 	commandmap["tell"]      = DoTell;       // tell someone
 	commandmap["shut"]      = DoShutdown;   // shut MUD down
 	commandmap["help"]      = DoHelp;       // show help message
-	commandmap["goto"]      = DoGoTo;       // go to room
 	commandmap["transfer"]  = DoTransfer;   // transfer someone else
 	commandmap["setflag"]   = DoSetFlag;    // set a player's flag
 	commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
