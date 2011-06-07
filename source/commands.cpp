@@ -295,15 +295,32 @@ void DoTransfer(tPlayer * p, istream & sArgs)
 
 	NoMore(p, sArgs);	// check no more input
 
-	*p << "You transfer " <<	ptarget->playername << " to room " << room << "\n";
+	*p << "You transfer " << ptarget->playername << " to room " << room << "\n";
 
 	 // move player
-	PlayerToRoom(ptarget, room,
-								p->playername + " transfers you to another room!\n",
-								ptarget->playername + " is yanked away by unseen forces!\n",
-								ptarget->playername + " appears breathlessly!\n");
-
+	PlayerToRoom(ptarget, room, p->playername + " transfers you to another room!\n",
+		ptarget->playername + " is yanked away by unseen forces!\n",
+		ptarget->playername + " appears breathlessly!\n");
 } // end of DoTransfer
+
+void DoTeleport(tPlayer * p, istream & sArgs)
+{
+	p->NeedFlag("can_transfer");	// permissions
+
+	int room;
+	sArgs >> room;
+
+	if(sArgs.fail())
+		throw runtime_error("Usage: teleport <where>");
+
+	NoMore(p, sArgs); // check no more input
+
+	*p << "You teleport to room " << room << "\n";
+
+	PlayerToRoom(p, room, "You teleport to another room!\n",
+		"You blink, and " + p->playername + " has vanished!\n",
+		p->playername + " suddenly pops up in the middle of the room!\n");
+}
 
 void DoInfo(tPlayer * p, istream & sArgs)
 {
@@ -311,7 +328,7 @@ void DoInfo(tPlayer * p, istream & sArgs)
   NoMore(p, sArgs);  // check no more input
   *p << "Flags: for " << ptarget->playername << " : ";
   copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
-  *p << "\n"; 
+  *p << "\n";
 } // end of DoShowFlags
 /* process commands when player is connected */
 
@@ -338,21 +355,23 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 
 void LoadCommands()
 {
-	commandmap["look"]			= DoLook;				// look around
-	commandmap["l"]					= DoLook;				// synonymm for look
-	commandmap["quit"]			= DoQuit;				// bye bye
-	commandmap["say"]				= DoSay;				// say something
-	commandmap["\""]				= DoSay;				// synonym for say
-	commandmap["tell"]			= DoTell;				// tell someone
-	commandmap["shut"]			= DoShutdown;		// shut MUD down
-	commandmap["help"]			= DoHelp;				// show help message
-	commandmap["goto"]			= DoGoTo;				// go to room
-	commandmap["transfer"]	= DoTransfer;		// transfer someone else
-	commandmap["setflag"]		= DoSetFlag;		// set a player's flag
-	commandmap["clearflag"]	= DoClearFlag;	// clear a player's flag
-	commandmap["save"]			= DoSave;				// save a player
-	commandmap["chat"]			= DoChat;				// chat
-	commandmap["emote"]			= DoEmote;			// emote
-	commandmap["who"]				= DoWho;				// who is on?
-	commandmap["info"]			= DoInfo;				// Show information on the player.
+	commandmap["look"]      = DoLook;       // look around
+	commandmap["l"]         = DoLook;       // synonymm for look
+	commandmap["quit"]      = DoQuit;       // bye bye
+	commandmap["say"]       = DoSay;        // say something
+	commandmap["\""]        = DoSay;        // synonym for say
+	commandmap["tell"]      = DoTell;       // tell someone
+	commandmap["shut"]      = DoShutdown;   // shut MUD down
+	commandmap["help"]      = DoHelp;       // show help message
+	commandmap["goto"]      = DoGoTo;       // go to room
+	commandmap["transfer"]  = DoTransfer;   // transfer someone else
+	commandmap["setflag"]   = DoSetFlag;    // set a player's flag
+	commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
+	commandmap["save"]      = DoSave;       // save a player
+	commandmap["chat"]      = DoChat;       // chat
+	commandmap["emote"]     = DoEmote;      // emote
+	commandmap["/me"]       = DoEmote;      // synonym for emote
+	commandmap["who"]       = DoWho;        // who is on?
+	commandmap["info"]      = DoInfo;       // Show information on the player.
+	commandmap["tp"]        = DoTeleport;
 } // end of LoadCommands
