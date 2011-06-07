@@ -36,6 +36,9 @@ tRoom* FindRoom(const int& vnum)
 
 tRoom* LoadRoom(const int& vnum)
 {
+	if( roommap[vnum] != NULL)
+		return roommap[vnum];
+
 	string roomfile = MAKE_STRING( ROOMS_DIR << vnum << ROOMS_EXT );
 	TiXmlDocument doc( roomfile );
 	bool loadOkay = doc.LoadFile();
@@ -57,7 +60,7 @@ tRoom* LoadRoom(const int& vnum)
 	string roomname = xmleRoom->Attribute( "name" );
 	string roomdesc = xmleRoom->FirstChild( "description" )->ToElement()->GetText();
 
-	tRoom* newroom = new tRoom(roomname, roomdesc + "\n");
+	tRoom* newroom = new tRoom(roomname, roomdesc);
 
 	TiXmlElement* xmleExits = xmleRoom->FirstChild( "exits" )->ToElement();
 	if( xmleExits == NULL )
