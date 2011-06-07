@@ -17,6 +17,7 @@ warranty, and with no claim as to its suitability for any purpose.
 using namespace std;
 
 #include "globals.h"
+#include <stdlib.h>
 
 // global variables
 bool	 bStopNow = false;			// when set, the MUD shuts down
@@ -39,6 +40,10 @@ set<string, ciLess> directionset;
 set<string, ciLess> badnameset;
 // blocked IP addresses
 set<string> blockedIP;
+// positive responses
+set<string, ciLess> posResp;
+// negative responses
+set<string, ciLess> negResp;
 
 string screenLayout;
 
@@ -78,4 +83,13 @@ string TextFormatting( string sMessageText, class tPlayer *p )
 	sMessageText = FindAndReplace(sMessageText, "[EL]", "\e[2K");
 	
 	return sMessageText;
+}
+
+int dieRoll( int sides )
+{
+	int retVal;
+
+	retVal = ( rand() % sides ) + 1;
+
+	return retVal;
 }

@@ -39,9 +39,11 @@ void LoadControlFile()
 		return;
 	}
 
-	LoadSet(fControl, directionset); // possible directions, eg. n, s, e, w
-	LoadSet(fControl, badnameset);	 // bad names for new players, eg. new, quit, look, admin
-	LoadSet(fControl, blockedIP);		// blocked IP addresses
+	LoadSet(fControl, directionset);	// possible directions, eg. n, s, e, w
+	LoadSet(fControl, badnameset);		// bad names for new players, eg. new, quit, look, admin
+	LoadSet(fControl, blockedIP);			// blocked IP addresses
+	LoadSet( fControl, posResp );			// Load positive responses
+	LoadSet( fControl, negResp );			// Load negative responses
 } // end of LoadControlFile
 
 // load messages stored on messages file

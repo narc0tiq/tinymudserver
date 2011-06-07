@@ -22,6 +22,7 @@ using namespace std;
 
 #include "constants.h"
 #include "globals.h"
+#include <stdlib.h>
 
 void LoadThings();
 int InitComms();
@@ -46,6 +47,8 @@ void PeriodicUpdates()
 
 int main()
 {
+	srand( (unsigned)time( NULL ) );
+
 	cout << "Tiny MUD server version " << VERSION << endl;
 
 	LoadThings();
