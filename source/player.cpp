@@ -70,9 +70,9 @@ tPlayer * tPlayer::GetPlayer(istream & args, const string & noNameMessage, const
 string tPlayer::getPlayerNameCentered( unsigned int size )
 {
 	string retVal;
-	
+
 	retVal = playername;
-	
+
 	if( playername.length() < size )
 	{
 		retVal.insert( 0, ( size - playername.length() ) / 2, ' ' );
@@ -83,7 +83,7 @@ string tPlayer::getPlayerNameCentered( unsigned int size )
 	{
 		retVal.erase( size, retVal.length() - size );
 	}
-	
+
 	return retVal;
 }
 
@@ -111,25 +111,25 @@ void tPlayer::Load()
 	TiXmlElement  *xmleFlgs;
 	TiXmlNode     *node = 0;
 	bool loadOkay = xmlDoc.LoadFile();
-	
+
 	printf( "hello\n" );
-	
+
 	if( loadOkay )
 	{
-    TiXmlHandle 	xmlDocHandle( &xmlDoc );
-    
-    xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
-    if( xmleFlgs != NULL )
-    {
-			password = xmleFlgs->Attribute( "password" );
-			room = atoi( xmleFlgs->Attribute( "room" ) );
-      for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
-            node;
-            node = node->NextSibling( "flag" ) )
-      {
-        flags.insert( node->ToElement()->GetText() );
-      }
-    }
+	TiXmlHandle 	xmlDocHandle( &xmlDoc );
+
+	xmleFlgs = xmlDocHandle.FirstChild( "player" ).Element();
+	if( xmleFlgs != NULL )
+	{
+		password = xmleFlgs->Attribute( "password" );
+		room = atoi( xmleFlgs->Attribute( "room" ) );
+		for( node = xmleFlgs->FirstChild( "flags" )->FirstChild( "flag" );
+			node;
+			node = node->NextSibling( "flag" ) )
+		{
+			flags.insert( node->ToElement()->GetText() );
+		}
+	}
 	}
 	else
 	{
@@ -163,7 +163,7 @@ void tPlayer::Save()
 	TiXmlElement	flag( "" );
 	std::set<string, ciLess>::iterator flagIter;
 	std::string tmp;
-	
+
 	root.SetAttribute( "password", password );
 	root.SetAttribute( "room", room );
 
