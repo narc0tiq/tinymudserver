@@ -16,6 +16,7 @@ warranty, and with no claim as to its suitability for any purpose.
 
 #include <stdexcept>
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -58,12 +59,16 @@ string GetFlag(istream & sArgs, const string & noFlagError)
 } // end of GetFlag
 
 void PlayerToRoom(tPlayer * p,			 // which player
-									const int & vnum,	 // which room
-									const string & sPlayerMessage,	// what to tell the player
-									const string & sOthersDepartMessage,	// tell people in original room
-									const string & sOthersArrriveMessage) // tell people in new room
+	const int & vnum, // which room
+	const string & sPlayerMessage,	// what to tell the player
+	const string & sOthersDepartMessage,	// tell people in original room
+	const string & sOthersArrriveMessage) // tell people in new room
 {
 	tRoom * r = FindRoom(vnum); // find the destination room(throws exception if not there)
+
+	if(r == NULL)
+		throw runtime_error("Can't move player: you said /WHAT/ room?");
+
 	SendToAll(sOthersDepartMessage, p, p->room);	// tell others where s/he went
 	p->room = vnum;	// move to new room
 	*p << sPlayerMessage; // tell player
@@ -112,14 +117,13 @@ void DoQuit(tPlayer * p, istream & sArgs)
 
 void DoLook(tPlayer * p, istream & sArgs)
 {
-
 	// TODO: add: look(thing)
-	NoMore(p, sArgs);	// check no more input
+	NoMore(p, sArgs); // check no more input
 
 	// find our current room, throws exception if not there
 	tRoom * r = FindRoom(p->room);
 
-	// show room description
+	*p << r->roomname << " (" << p->room << ")\n";
 	*p << r->description;
 
 	// show available exits
@@ -161,7 +165,9 @@ void DoLook(tPlayer * p, istream & sArgs)
 
 void DoSay(tPlayer * p, istream & sArgs)
 {
-	p->NeedNoFlag("gagged"); // can't if gagged
+	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	string what = GetMessage(sArgs, "Say what?");	// what
 	*p << "You say, \"" << what << "\"\n";	// confirm
 	SendToAll(p->playername + " says, \"" + what + "\"\n",
@@ -171,7 +177,9 @@ void DoSay(tPlayer * p, istream & sArgs)
 /* tell <someone> <something> */
 void DoTell(tPlayer * p, istream & sArgs)
 {
-	p->NeedNoFlag("gagged"); // can't if gagged
+	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Tell whom?", true);	// who
 	string what = GetMessage(sArgs, "Tell " + p->playername + " what?");	// what
 	*p << "You tell " << ptarget->playername << ", \"" << what << "\"\n";		 // confirm
@@ -186,7 +194,9 @@ void DoSave	(tPlayer * p, istream & sArgs)
 
 void DoChat(tPlayer * p, istream & sArgs)
 {
-	p->NeedNoFlag("gagged"); // can't if gagged
+	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	string what = GetMessage(sArgs, "Chat what?");	// what
 	SendToAll(p->playername + " chats, \"" + what + "\"\n");	// chat it
 }
@@ -221,7 +231,9 @@ void DoWho(tPlayer * p, istream & sArgs)
 
 void DoSetFlag(tPlayer * p, istream & sArgs)
 {
-	p->NeedFlag("can_setflag");	// permissions
+	if(!p->HaveFlag("can_setflag") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: setflag <who> <flag>");	// who
 	string flag = GetFlag(sArgs, "Set which flag?"); // what
 	NoMore(p, sArgs);	// check no more input
@@ -235,7 +247,9 @@ void DoSetFlag(tPlayer * p, istream & sArgs)
 
 void DoClearFlag(tPlayer * p, istream & sArgs)
 {
-	p->NeedFlag("can_setflag");	// permissions
+	if(!p->HaveFlag("can_setflag") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: clearflag <who> <flag>");	// who
 	string flag = GetFlag(sArgs, "Clear which flag?"); // what
 	NoMore(p, sArgs);	// check no more input
@@ -249,8 +263,11 @@ void DoClearFlag(tPlayer * p, istream & sArgs)
 
 void DoShutdown(tPlayer * p, istream & sArgs)
 {
-	NoMore(p, sArgs);	// check no more input
-	p->NeedFlag("can_shutdown");
+	NoMore(p, sArgs); // check no more input
+
+	if(!p->HaveFlag("can_shutdown") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
+
 	SendToAll(p->playername + " shuts down the game\n");
 	bStopNow = true;
 } // end of DoShutdown
@@ -261,53 +278,54 @@ void DoHelp(tPlayer * p, istream & sArgs)
 	*p << messagemap ["help"];
 } // end of DoHelp
 
-void DoTransfer(tPlayer * p, istream & sArgs)
-{
-	p->NeedFlag("can_transfer");	// permissions
-	tPlayer * ptarget = p->GetPlayer(sArgs,
-		"Usage: transfer <who> [ where ](default is here)", true);	// who
-	int room;
-	sArgs >> room;
-
-	if(sArgs.fail())
-		room = p->room;	 // if no room number, transfer to our room
-
-	NoMore(p, sArgs);	// check no more input
-
-	*p << "You transfer " << ptarget->playername << " to room " << room << "\n";
-
-	 // move player
-	PlayerToRoom(ptarget, room, p->playername + " transfers you to another room!\n",
-		ptarget->playername + " is yanked away by unseen forces!\n",
-		ptarget->playername + " appears breathlessly!\n");
-} // end of DoTransfer
-
 void DoTeleport(tPlayer * p, istream & sArgs)
 {
-	p->NeedFlag("can_transfer");
+	if(!p->HaveFlag("can_transfer") and !p->HaveFlag("admin"))
+		throw runtime_error("You are not permitted to do that.");
 
+	tPlayer* pTarget;
+	string name;
 	int room;
-	sArgs >> room;
 
-	if(sArgs.fail())
-		throw runtime_error("Usage: tp <where>");
+	sArgs >> name;
+
+	if(ciStringEqual(name, "me") || ciStringEqual(name, "self"))
+		pTarget = p;
+	else
+		pTarget = FindPlayer(name);
+
+	if( pTarget == NULL )
+	{
+		room = atoi( name.c_str() );
+		pTarget = p;
+	}
+	else
+		sArgs >> room;
+
+	if((sArgs.fail()) || (room == 0))
+		throw runtime_error("Usage: tp [who] <where>");
 
 	NoMore(p, sArgs); // check no more input
 
-	*p << "You teleport to room " << room << "\n";
+	string playerMsg = "You teleport to another room!\n";
+	if(pTarget != p)
+	{
+		*p << "You teleport " << pTarget->playername << " to another room!\n";
+		playerMsg = "You get teleported to another room!\n";
+	}
 
-	PlayerToRoom(p, room, "You teleport to another room!\n",
-		"You blink, and " + p->playername + " has vanished!\n",
-		p->playername + " suddenly pops up in the middle of the room!\n");
+	PlayerToRoom(pTarget, room, playerMsg,
+		"You blink, and " + pTarget->playername + " has vanished!\n",
+		pTarget->playername + " suddenly pops up in the middle of the room!\n");
 }
 
 void DoInfo(tPlayer * p, istream & sArgs)
 {
-  tPlayer * ptarget = p->GetPlayer (sArgs, "Usage: info <who>");  // who
-  NoMore(p, sArgs);  // check no more input
-  *p << "Flags: for " << ptarget->playername << " : ";
-  copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
-  *p << "\n";
+	tPlayer * ptarget = p->GetPlayer (sArgs, "Usage: info <who>");  // who
+	NoMore(p, sArgs);  // check no more input
+	*p << "Flags: for " << ptarget->playername << " : ";
+	copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
+	*p << "\n";
 } // end of DoShowFlags
 /* process commands when player is connected */
 
@@ -342,7 +360,6 @@ void LoadCommands()
 	commandmap["tell"]      = DoTell;       // tell someone
 	commandmap["shut"]      = DoShutdown;   // shut MUD down
 	commandmap["help"]      = DoHelp;       // show help message
-	commandmap["transfer"]  = DoTransfer;   // transfer someone else
 	commandmap["setflag"]   = DoSetFlag;    // set a player's flag
 	commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
 	commandmap["save"]      = DoSave;       // save a player

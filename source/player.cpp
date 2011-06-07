@@ -100,6 +100,8 @@ void tPlayer::Load()
 	TiXmlNode     *node = 0;
 	bool loadOkay = xmlDoc.LoadFile();
 
+	printf( "hello\n" );
+
 	if( loadOkay )
 	{
 		TiXmlHandle xmlDocHandle( &xmlDoc );
@@ -139,6 +141,7 @@ void tPlayer::Save()
 {
 	TiXmlDocument xmlDoc( (PLAYER_DIR + playername + PLAYER_EXT).c_str() );
 	TiXmlHandle 	xmlDocHandle( &xmlDoc );
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
 	TiXmlText		 	xmlNodeText( "" );
 	TiXmlElement 	root( "player" );
 	TiXmlElement	flags_( "flags" );
@@ -165,6 +168,7 @@ void tPlayer::Save()
 	}
 	root.InsertEndChild( flags_ );
 
+	root.InsertEndChild( flags_ );
 	stat.Clear();
 	stat.SetValue( "maxHP" );
 	sprintf( stmp, "%d", maxhp );
@@ -187,6 +191,7 @@ void tPlayer::Save()
 	stats.InsertEndChild( stat );
 
 	root.InsertEndChild( stats );
+	xmlDoc.LinkEndChild( decl );
 	xmlDoc.InsertEndChild( root );
 	xmlDoc.SaveFile();
 } /* end of tPlayer::Save */
