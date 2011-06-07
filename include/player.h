@@ -45,7 +45,7 @@ public:
 	bool closing;		 // true if they are about to leave us
 	std::set<string, ciLess> flags;	// player flags
 
-	string getPlayerNameCentered( int size );
+	string getPlayerNameCentered( unsigned int size );
 
 	tPlayer(const int sock, const int p, const string a)
 		: s(sock), port(p), address(a), closing(false)

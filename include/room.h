@@ -11,17 +11,20 @@ class tRoom
 {
 	public:
 
-	string description;	 // what it looks like
-	tExitMap exits;			 // map of exits
+	string roomname;    // room name
+	string description; // what it looks like
+	tExitMap exits;     // map of exits
 
-	// ctor
-	tRoom(const string & s) : description(s) {}
-};	// end of class tRoom
+	tRoom(const string& s) : description(s) {};
+	tRoom(const string& name, const string& desc): roomname(name), description(desc) {};
+
+}; // end of class tRoom
 
 // we will use a map of rooms
 typedef std::map <int, tRoom*> tRoomMap;
 typedef tRoomMap::const_iterator tRoomMapIterator;
 
-tRoom * FindRoom(const int & vnum);
+tRoom* FindRoom(const int& vnum);
+tRoom* LoadRoom(const int& vnum);
 
 #endif // TINYMUDSERVER_ROOM_H

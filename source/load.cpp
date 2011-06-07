@@ -51,7 +51,7 @@ void LoadMessages()
 	TiXmlNode* node = 0;
 	TiXmlDocument doc( MESSAGES_FILE );
 	bool loadOkay = doc.LoadFile();
-	
+
 	if( loadOkay )
 	{
 		TiXmlHandle docHandle( &doc );
@@ -62,13 +62,13 @@ void LoadMessages()
 			      node;
 			      node = node->NextSibling( "message" ) )
 			{
-				
+
 				string sMessageCode, sMessageText;
-				
+
 				sMessageCode = node->FirstChild( "name" )->ToElement()->GetText();
-				
+
 				sMessageText = node->FirstChild( "text" )->ToElement()->GetText();
-				
+
 				messagemap[ tolower(sMessageCode) ] = sMessageText;
 			}
 		}
@@ -156,18 +156,23 @@ void LoadScreens()
 {
 	string sLine;
 	ifstream fScreen(SCREEN_FILE, ios::in);
-	
+
 	if(!fScreen)
 	{
 		cerr << "Could not open rooms file: " << SCREEN_FILE << endl;
 		return;
 	}
-	
+
 	while(!(fScreen.eof()))
 	{
 		getline(fScreen, sLine);
 		screenLayout.append( sLine );
 	}
+}
+
+void LoadXMLRooms()
+{
+	tRoom* core = LoadRoom( INITIAL_ROOM );
 }
 
 // build up our commands map and connection states
@@ -180,7 +185,8 @@ void LoadThings()
 	// load files
 	LoadControlFile();
 	LoadMessages();
-	LoadRooms();
+//	LoadRooms();
+//	LoadXMLRooms();
 	LoadScreens();
 
 } // end of LoadThings

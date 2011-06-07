@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Starting Room">
+	<description><![CDATA[
+You are standing in a [YELLOW]fabulous, fabulous, exotic room[/color], with all sorts of things that go 'hum' and 'plink' in the night.
+As you glance around the room, you wonder what else might exist in this world.
+]]>
+	</description>
+	<exits>
+		<exit direction="n" target="1004" />
+		<exit direction="s" target="1001" />
+		<exit direction="e" target="1002" />
+		<exit direction="w" target="1003" />
+	</exits>
+</room>
+

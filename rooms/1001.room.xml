@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Southern Room">
+	<description><![CDATA[
+You are in room 1001. It could look better. What a let-down! This rooms has no alabaster walls, no mystic fireplace, no marble floors.
+]]>
+	</description>
+	<exits>
+		<exit direction="n" target="1000" />
+	</exits>
+</room>

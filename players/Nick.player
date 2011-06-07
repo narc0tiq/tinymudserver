@@ -1,3 +1,9 @@
-password
-1000
-can_goto can_setflag can_shutdown can_transfer eep 
+<player password="password" room="1000">
+    <flags>
+        <flag>can_goto</flag>
+        <flag>can_setflag</flag>
+        <flag>can_shutdown</flag>
+        <flag>can_transfer</flag>
+        <flag>eep</flag>
+    </flags>
+</player>
