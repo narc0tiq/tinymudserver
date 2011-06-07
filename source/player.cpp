@@ -156,6 +156,7 @@ void tPlayer::Save()
 {
 	TiXmlDocument xmlDoc( (PLAYER_DIR + playername + PLAYER_EXT).c_str() );
 	TiXmlHandle 	xmlDocHandle( &xmlDoc );
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
 	TiXmlText		 	xmlNodeText( "" );
 	TiXmlElement 	root( "player" );
 	TiXmlElement	flags_( "flags" );
@@ -178,6 +179,7 @@ void tPlayer::Save()
 	}
 
 	root.InsertEndChild( flags_ );
+	xmlDoc.LinkEndChild( decl );
 	xmlDoc.InsertEndChild( root );
 	xmlDoc.SaveFile();
 } /* end of tPlayer::Save */
