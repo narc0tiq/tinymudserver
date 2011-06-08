@@ -2,8 +2,9 @@
 #include <string>
 #include <map>
 
-#include "player.h"	 // for player list
-#include "room.h"		 // for rooms and exits
+#include "player.h" // for player list
+#include "room.h" // for rooms and exits
+#include "command.h" // command lists
 
 // bad player names
 extern std::set<std::string, ciLess> badnameset;
@@ -14,7 +15,7 @@ extern tPlayerList playerlist;
 // map of all rooms
 extern tRoomMap roommap;
 // map of known commands(eg. look, quit, north etc.)
-extern std::map<std::string, tHandler> commandmap;
+extern tCommandMap commandmap;
 // map of things to do for various connection states
 extern std::map<tConnectionStates, tHandler> statemap;
 // messages

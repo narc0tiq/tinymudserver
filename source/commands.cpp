@@ -26,6 +26,7 @@ using namespace std;
 #include "player.h"
 #include "room.h"
 #include "globals.h"
+#include "command.h"
 
 void NoMore(tPlayer * p, istream & sArgs)
 {
@@ -341,32 +342,39 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 	else
 	{
 		// otherwise, look up command in commands map
-		map<string, tHandler>::const_iterator command_iter = commandmap.find(command);
+		tCommandMapIterator command_iter = commandmap.find(command);
 		if(command_iter == commandmap.end())
 			throw runtime_error("Huh?");
 
-		command_iter->second(p, sArgs); // execute command(eg. DoLook)
+		command_iter->second->Execute(p,sArgs); // execute command(eg. DoLook)
 	}
 } /* end of ProcessCommand */
 
 
 void LoadCommands()
 {
-	commandmap["look"]      = DoLook;       // look around
-	commandmap["l"]         = DoLook;       // synonymm for look
-	commandmap["quit"]      = DoQuit;       // bye bye
-	commandmap["say"]       = DoSay;        // say something
-	commandmap["\""]        = DoSay;        // synonym for say
-	commandmap["tell"]      = DoTell;       // tell someone
-	commandmap["shut"]      = DoShutdown;   // shut MUD down
-	commandmap["help"]      = DoHelp;       // show help message
-	commandmap["setflag"]   = DoSetFlag;    // set a player's flag
-	commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
-	commandmap["save"]      = DoSave;       // save a player
-	commandmap["chat"]      = DoChat;       // chat
-	commandmap["emote"]     = DoEmote;      // emote
-	commandmap["/me"]       = DoEmote;      // synonym for emote
-	commandmap["who"]       = DoWho;        // who is on?
-	commandmap["info"]      = DoInfo;       // Show information on the player.
-	commandmap["tp"]        = DoTeleport;
+	tCommand* lookCommand = new tCommand();
+	lookCommand->CanExecute = AnyCanExecute;
+	lookCommand->Execute = DoLook;
+
+	commandmap["look"]      = lookCommand;
+
+
+	//commandmap["look"]      = DoLook;       // look around
+	//commandmap["l"]         = DoLook;       // synonymm for look
+	//commandmap["quit"]      = DoQuit;       // bye bye
+	//commandmap["say"]       = DoSay;        // say something
+	//commandmap["\""]        = DoSay;        // synonym for say
+	//commandmap["tell"]      = DoTell;       // tell someone
+	//commandmap["shut"]      = DoShutdown;   // shut MUD down
+	//commandmap["help"]      = DoHelp;       // show help message
+	//commandmap["setflag"]   = DoSetFlag;    // set a player's flag
+	//commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
+	//commandmap["save"]      = DoSave;       // save a player
+	//commandmap["chat"]      = DoChat;       // chat
+	//commandmap["emote"]     = DoEmote;      // emote
+	//commandmap["/me"]       = DoEmote;      // synonym for emote
+	//commandmap["who"]       = DoWho;        // who is on?
+	//commandmap["info"]      = DoInfo;       // Show information on the player.
+	//commandmap["tp"]        = DoTeleport;
 } // end of LoadCommands
