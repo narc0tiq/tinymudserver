@@ -25,7 +25,7 @@
 </file>
 <file id="bb45ad48-a63c-4707-a9a8-14ef9907d33d" idref="4dde045c-bd23-4090-8233-a1cdf53756ba" name="messages.xml" url="system/messages.xml">
 </file>
-<folder id="4dde045c-bd23-4090-8233-a1cdf53756ba" idref="5955263a-79c3-4ed9-ae5e-60a29a524d5d" name="zzother">
+<folder id="4dde045c-bd23-4090-8233-a1cdf53756ba" idref="5955263a-79c3-4ed9-ae5e-60a29a524d5d" name="other">
 </folder>
 <folder id="5a2cdfc6-9843-43a3-9591-bbab703b5a05" idref="5955263a-79c3-4ed9-ae5e-60a29a524d5d" name="include">
 </folder>
@@ -65,4 +65,10 @@
 </file>
 <file id="ec8ca02e-65b7-413c-886c-57466fb306a5" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="states.cpp" url="source/states.cpp">
 </file>
+<preference-set idref="5955263a-79c3-4ed9-ae5e-60a29a524d5d">
+  <string relative="path" id="import_dirname"></string>
+  <string id="import_exclude_matches">*.*~;*.bak;*.tmp;CVS;.#*;*.pyo;*.pyc;.svn;_svn;*%*;tmp*.html;.DS_Store</string>
+  <string id="import_include_matches"></string>
+  <string id="mappedPaths"></string>
+</preference-set>
 </project>

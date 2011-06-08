@@ -94,7 +94,7 @@ string TextFormatting( string sMessageText, class tPlayer *p )
 	sprintf( tmp, "\e[1;37m%d", p->maxhp );
 	sMessageText = FindAndReplace(sMessageText, "[MHP]", tmp );
 	sMessageText = FindAndReplace(sMessageText, "[SKL]", "");
-	
+
 	return sMessageText;
 }
 

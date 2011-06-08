@@ -34,7 +34,6 @@ bool GaglessCanExecute(tPlayer* p)
 	return true;
 }
 
-
 tCommand::tCommand(string cmdName, tPermHandler ph, tHandler eh): CanExecute(ph), Action(eh)
 {
 	this->GetHelp(cmdName);

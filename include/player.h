@@ -72,7 +72,7 @@ public:
 		connstate = eAwaitingName;
 		room = INITIAL_ROOM;
 		flags.clear();
-		prompt = "Enter your name, or 'new' to create a new character ...	";
+		prompt = "Enter your name, or 'new' to create a new character: ";
 	}
 
 	// what's our socket?
