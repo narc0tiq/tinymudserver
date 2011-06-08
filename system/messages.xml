@@ -127,7 +127,7 @@ Whispers something to the target player.
 ]]>
 	</message>
 	<message name="/shout-shorthelp">Shout something.</message>
-	<message name="/say-longhelp"><![CDATA[Usage: /shout <what>
+	<message name="/shout-longhelp"><![CDATA[Usage: /shout <what>
 
 Causes you to say something to everyone on the server.
 ]]>
