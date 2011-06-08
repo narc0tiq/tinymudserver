@@ -1,11 +1,7 @@
 <?xml version="1.0" ?>
 <player password="password" room="1000">
     <flags>
-        <flag>can_goto</flag>
-        <flag>can_setflag</flag>
-        <flag>can_shutdown</flag>
-        <flag>can_transfer</flag>
-        <flag>eep</flag>
+        <flag>admin</flag>
     </flags>
     <stats>
         <maxHP>24</maxHP>
