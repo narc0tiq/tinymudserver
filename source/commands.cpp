@@ -275,16 +275,30 @@ void DoShutdown(tPlayer * p, istream & sArgs)
 
 void DoHelp(tPlayer * p, istream & sArgs)
 {
+	string cmd;
+
+	sArgs >> cmd;
+
 	NoMore(p, sArgs); // check no more input
 
-	//*p << messagemap ["help"];
-
-	for(tCommandMapIterator iter = commandmap.begin(); iter != commandmap.end(); ++iter)
+	if(cmd.empty()) // just /help by itself, no argument
 	{
-		if(!iter->second->CanExecute(p))
-			continue;
+		for(tCommandMapIterator iter = commandmap.begin(); iter != commandmap.end(); ++iter)
+		{
+			if(!iter->second->CanExecute(p))
+				continue;
 
-		*p << iter->first << "\t" << iter->second->shorthelp << "\n";
+			*p << iter->first << "\t" << iter->second->shorthelp << "\n";
+		}
+	}
+	else
+	{
+		tCommandMapIterator iter = commandmap.find(cmd);
+
+		if(iter == commandmap.end())
+			throw runtime_error("No such command: " + cmd);
+
+		*p << iter->second->longhelp << "\n";
 	}
 } // end of DoHelp
 
