@@ -45,6 +45,8 @@ set<string> blockedIP;
 set<string, ciLess> posResp;
 // negative responses
 set<string, ciLess> negResp;
+// map of NPC Master table
+tNPCMMap npcmmap;
 
 string screenLayout;
 

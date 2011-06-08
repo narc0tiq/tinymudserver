@@ -11,6 +11,8 @@
 </file>
 <file id="550974e5-9f21-4dfe-b55c-8689734149be" idref="094e8842-71cc-4897-b560-fc945db73a2a" name="1004.room.xml" url="rooms/1004.room.xml">
 </file>
+<file id="750aec72-33d4-4f51-9444-a60c9f7894e6" idref="094e8842-71cc-4897-b560-fc945db73a2a" name="101.room.xml" url="rooms/101.room.xml">
+</file>
 <file id="ca5a204c-0c0f-4636-a56f-c9e9ea464f06" idref="094e8842-71cc-4897-b560-fc945db73a2a" name="1000.room.xml" url="rooms/1000.room.xml">
 </file>
 <file id="ecb4b563-ae04-4f93-acd6-89c8510059d5" idref="094e8842-71cc-4897-b560-fc945db73a2a" name="1005.room.xml" url="rooms/1005.room.xml">
@@ -23,6 +25,8 @@
 </file>
 <file id="a8631eb3-a93a-448d-b761-aab0c1d08c05" idref="4dde045c-bd23-4090-8233-a1cdf53756ba" name="Nick.player" url="players/Nick.player">
 </file>
+<folder id="b9605e9b-7b9a-45f0-9a3f-90965b51ee14" idref="4dde045c-bd23-4090-8233-a1cdf53756ba" name="npcs">
+</folder>
 <file id="bb45ad48-a63c-4707-a9a8-14ef9907d33d" idref="4dde045c-bd23-4090-8233-a1cdf53756ba" name="messages.xml" url="system/messages.xml">
 </file>
 <folder id="4dde045c-bd23-4090-8233-a1cdf53756ba" idref="5955263a-79c3-4ed9-ae5e-60a29a524d5d" name="other">
@@ -45,6 +49,10 @@
 </file>
 <file id="e8204e74-0470-4819-8e45-2621e1379e16" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="constants.h" url="include/constants.h">
 </file>
+<file id="f3c1fb25-d3c1-4962-9f7a-4562e010180e" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="npc.h" url="include/npc.h">
+</file>
+<file id="c03af620-362c-4897-b967-c909a6eaea68" idref="b9605e9b-7b9a-45f0-9a3f-90965b51ee14" name="Imitator.npc.xml" url="npcs/Imitator.npc.xml">
+</file>
 <file id="06028f66-ee39-46de-8013-fdc5cd81664d" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="room.cpp" url="source/room.cpp">
 </file>
 <file id="4766724c-e428-4308-af19-c82f561401bd" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="player.cpp" url="source/player.cpp">
@@ -60,6 +68,8 @@
 <file id="ac687775-78fc-409d-bb54-0f5e23b44374" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="strings.cpp" url="source/strings.cpp">
 </file>
 <file id="b1f56438-e8d3-45ec-a1f6-8d3a1e0b280f" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="tinymudserver.cpp" url="source/tinymudserver.cpp">
+</file>
+<file id="c79b7202-f757-46e1-b31f-ac37c1dc305f" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="npc.cpp" url="source/npc.cpp">
 </file>
 <file id="cb2fe4aa-0b49-4862-876d-5d315770c9cf" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="commands.cpp" url="source/commands.cpp">
 </file>

@@ -7,4 +7,5 @@ This room is a test. Specifically, a multiple-choice test. You're wondering how 
 	<exits>
 		<exit direction="u" target="1000" />
 	</exits>
+	<npcs />
 </room>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<npc>
+	<name>Imitator</name>
+	<description>In dark places underground...</description>
+	<stats>
+		<maxHP>8</maxHP>
+		<baseSkill>9</baseSkill>
+		<reaction>Hostile</reaction>
+	</stats>
+	<weapon>Fist</weapon>
+</npc>

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<player password="password" room="1000">
+<player password="password" room="101">
     <flags>
         <flag>admin</flag>
     </flags>

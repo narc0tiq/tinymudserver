@@ -26,6 +26,9 @@ static const char* ROOMS_FILE      = "./rooms/rooms.txt";
 static const char* ROOMS_DIR   = "./rooms/";  // XML-based rooms are one-file-per-room
 static const char* ROOMS_EXT   = ".room.xml";
 
+static const char* NPCS_DIR   = "./npcs/";  // XML-based rooms are one-file-per-room
+static const char* NPCS_EXT   = ".npc.xml";
+
 static const char* SCREEN_FILE     = "./system/screen.lay";
 
 // player names must consist of characters from this list

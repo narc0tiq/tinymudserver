@@ -8,4 +8,5 @@ Unfortunately, the presence of an overwhelmingly massive pile of rubble makes it
 	<exits>
 		<exit direction="w" target="1002" />
 	</exits>
+	<npcs />
 </room>

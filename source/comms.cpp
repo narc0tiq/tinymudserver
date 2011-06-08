@@ -132,6 +132,9 @@ void CloseComms()
 	// delete all rooms
 	for_each(roommap.begin(), roommap.end(), DeleteMapObject()); // TODO: This should not be happening here!
 
+	// delete all npc
+	for_each(npcmmap.begin(), npcmmap.end(), DeleteMapObject()); // TODO: This should not be happening here!
+
 } /* end of CloseComms */
 
 	// prepare for comms

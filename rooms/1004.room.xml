@@ -8,4 +8,5 @@ Today, sadly, the room is pretty much deserted.
 	<exits>
 		<exit direction="s" target="1000" />
 	</exits>
+	<npcs />
 </room>

@@ -7,4 +7,5 @@ This room looks as if it has been rough-hewn from the very granite that forms th
 	<exits>
 		<exit direction="e" target="1000" />
 	</exits>
+	<npcs />
 </room>

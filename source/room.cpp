@@ -21,24 +21,15 @@ using namespace std;
 #include "utils.h"
 #include "room.h"
 #include "globals.h"
+#include "npc.h"
 
 #include "tinyxml.h"
 
-tRoom* FindRoom(const int& vnum)
+void AddNPC( tRoom* room, string NPC, int number )
 {
-	tRoomMapIterator roomiter = roommap.find( vnum );
-
-	if (roomiter == roommap.end())
-	{
-		tRoom* room = LoadRoom( vnum );
-
-		if( room == NULL )
-			throw runtime_error( MAKE_STRING( "Room number " << vnum << " does not exist." ));
-
-		return room;
-	}
-
-	return roomiter->second;
+	tNPC *newNPC;
+	
+	newNPC = FindNPC( NPC );
 }
 
 tRoom* LoadRoom(const int& vnum)
@@ -67,8 +58,6 @@ tRoom* LoadRoom(const int& vnum)
 	string roomname = xmleRoom->Attribute( "name" );
 	string roomdesc = xmleRoom->FirstChild( "description" )->ToElement()->GetText();
 
-	tRoom* newroom = new tRoom(roomname, roomdesc);
-
 	TiXmlElement* xmleExits = xmleRoom->FirstChild( "exits" )->ToElement();
 	if( xmleExits == NULL )
 	{
@@ -76,6 +65,8 @@ tRoom* LoadRoom(const int& vnum)
 		return NULL;
 	}
 
+	tRoom* newroom = new tRoom(roomname, roomdesc);
+	
 	for( TiXmlNode* node = xmleExits->FirstChild( "exit" );
 		 node;
 		 node = node->NextSibling( "exit" ) )
@@ -92,7 +83,41 @@ tRoom* LoadRoom(const int& vnum)
 		newroom->exits[direction] = target;
 	}
 
+//	TiXmlElement* xmleNPCs = xmleRoom->FirstChild( "npcs" )->ToElement();
+	TiXmlElement* xmleNPCs = docHandle.FirstChild( "room" ).FirstChild( "npcs" ).Element();
+	if( xmleNPCs != NULL )
+	{
+		printf( "FFS...." );
+		// We have some NPC's in this room, so load them up.
+		for( TiXmlNode* node = xmleNPCs->FirstChild( "npc" );
+			 node;
+			 node = node->NextSibling( "npc" ) )
+		{
+			string NPCname = node->ToElement()->Attribute( "name" );
+			int number = atoi( node->ToElement()->Attribute( "number" ) );
+			
+			AddNPC( newroom, NPCname, number );
+		}
+	}
+	
 	roommap[vnum] = newroom;
 
 	return newroom;
+}
+
+tRoom* FindRoom(const int& vnum)
+{
+	tRoomMapIterator roomiter = roommap.find( vnum );
+
+	if (roomiter == roommap.end())
+	{
+		tRoom* room = LoadRoom( vnum );
+
+		if( room == NULL )
+			throw runtime_error( MAKE_STRING( "Room number " << vnum << " does not exist." ));
+
+		return room;
+	}
+
+	return roomiter->second;
 }

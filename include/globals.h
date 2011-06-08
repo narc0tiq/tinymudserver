@@ -5,6 +5,7 @@
 #include "player.h" // for player list
 #include "room.h" // for rooms and exits
 #include "command.h" // command lists
+#include "npc.h" // for npc's
 
 // bad player names
 extern std::set<std::string, ciLess> badnameset;
@@ -26,6 +27,8 @@ extern std::set<std::string, ciLess> directionset;
 extern std::set<string, ciLess> posResp;
 // negative responses
 extern std::set<string, ciLess> negResp;
+// map of NPC Master table
+extern tNPCMMap npcmmap;
 
 // global variables
 extern bool	 bStopNow;			// when set, the MUD shuts down

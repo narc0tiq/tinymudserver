@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<room name="Test Room">
+	<description><![CDATA[
+This is a fight room...
+]]>
+	</description>
+	<exits />
+	<npcs>
+		<npc name="Imitator" number="1" />
+	</npcs>
+</room>
