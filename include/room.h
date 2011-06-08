@@ -5,8 +5,8 @@
 
 // map of exits for rooms
 typedef std::map<string, int> tExitMap;
-typedef tExitMap::const_iterator tExitMapIterator;
 typedef std::map<int, int> tNPCSet;
+typedef tExitMap::const_iterator tExitMapIterator;
 
 // a room(vnum of room is in the room map)
 class tRoom
