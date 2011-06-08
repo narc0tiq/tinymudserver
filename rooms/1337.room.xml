@@ -2,10 +2,12 @@
 <room name="Test Room">
 	<description><![CDATA[
 This room is a test. Specifically, a multiple-choice test. You're wondering how you managed to get in a piece of paper, but nonetheless, you're right here.
+
+There is a portal in the room. An orange one. You can see room 1000 through it.
 ]]>
 	</description>
 	<exits>
-		<exit direction="u" target="1000" />
+		<exit direction="portal" target="1000" />
 	</exits>
 	<npcs />
 </room>
