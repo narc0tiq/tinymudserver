@@ -167,9 +167,6 @@ void DoLook(tPlayer * p, istream & sArgs)
 
 void DoSay(tPlayer * p, istream & sArgs)
 {
-	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	string what = GetMessage(sArgs, "Say what?");	// what
 	*p << "You say, \"" << what << "\"\n";	// confirm
 	SendToAll(p->playername + " says, \"" + what + "\"\n",
@@ -179,9 +176,6 @@ void DoSay(tPlayer * p, istream & sArgs)
 /* tell <someone> <something> */
 void DoTell(tPlayer * p, istream & sArgs)
 {
-	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Tell whom?", true);	// who
 	string what = GetMessage(sArgs, "Tell " + p->playername + " what?");	// what
 	*p << "You tell " << ptarget->playername << ", \"" << what << "\"\n";		 // confirm
@@ -196,9 +190,6 @@ void DoSave	(tPlayer * p, istream & sArgs)
 
 void DoShout(tPlayer * p, istream & sArgs)
 {
-	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	string what = GetMessage(sArgs, "Shout what?");
 	SendToAll(p->playername + " shouts, \"" + what + "\"\n");
 }
@@ -233,9 +224,6 @@ void DoWho(tPlayer * p, istream & sArgs)
 
 void DoSetFlag(tPlayer * p, istream & sArgs)
 {
-	if(!p->HaveFlag("can_setflag") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: setflag <who> <flag>");	// who
 	string flag = GetFlag(sArgs, "Set which flag?"); // what
 	NoMore(p, sArgs);	// check no more input
@@ -249,9 +237,6 @@ void DoSetFlag(tPlayer * p, istream & sArgs)
 
 void DoClearFlag(tPlayer * p, istream & sArgs)
 {
-	if(!p->HaveFlag("can_setflag") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: clearflag <who> <flag>");	// who
 	string flag = GetFlag(sArgs, "Clear which flag?"); // what
 	NoMore(p, sArgs);	// check no more input
@@ -266,9 +251,6 @@ void DoClearFlag(tPlayer * p, istream & sArgs)
 void DoShutdown(tPlayer * p, istream & sArgs)
 {
 	NoMore(p, sArgs); // check no more input
-
-	if(!p->HaveFlag("can_shutdown") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
 
 	SendToAll(p->playername + " shuts down the game\n");
 	bStopNow = true;
@@ -305,9 +287,6 @@ void DoHelp(tPlayer * p, istream & sArgs)
 
 void DoTeleport(tPlayer * p, istream & sArgs)
 {
-	if(!p->HaveFlag("can_transfer") and !p->HaveFlag("admin"))
-		throw runtime_error("You are not permitted to do that.");
-
 	tPlayer* pTarget;
 	string name;
 	int room;
@@ -352,7 +331,7 @@ void DoInfo(tPlayer * p, istream & sArgs)
 	copy(ptarget->flags.begin(), ptarget->flags.end(), player_output_iterator<string>(*p, " "));
 	*p << "\n";
 } // end of DoShowFlags
-/* process commands when player is connected */
+
 
 void ProcessCommand(tPlayer * p, istream& sArgs)
 {

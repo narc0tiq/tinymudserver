@@ -28,7 +28,7 @@ bool AdminCanExecute(tPlayer* p)
 
 bool GaglessCanExecute(tPlayer* p)
 {
-	if(p->HaveFlag("gagged"))
+	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
 		return false;
 
 	return true;
