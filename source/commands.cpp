@@ -173,7 +173,7 @@ void DoSay(tPlayer * p, istream & sArgs)
 	string what = GetMessage(sArgs, "Say what?");	// what
 	*p << "You say, \"" << what << "\"\n";	// confirm
 	SendToAll(p->playername + " says, \"" + what + "\"\n",
-						p, p->room);	// say it
+		p, p->room); // say it
 } // end of DoSay
 
 /* tell <someone> <something> */
@@ -194,19 +194,19 @@ void DoSave	(tPlayer * p, istream & sArgs)
 	*p << "Saved.\n";
 }
 
-void DoChat(tPlayer * p, istream & sArgs)
+void DoShout(tPlayer * p, istream & sArgs)
 {
 	if(p->HaveFlag("gagged") and !p->HaveFlag("admin"))
 		throw runtime_error("You are not permitted to do that.");
 
-	string what = GetMessage(sArgs, "Chat what?");	// what
-	SendToAll(p->playername + " chats, \"" + what + "\"\n");	// chat it
+	string what = GetMessage(sArgs, "Shout what?");
+	SendToAll(p->playername + " shouts, \"" + what + "\"\n");
 }
 
 void DoEmote(tPlayer * p, istream & sArgs)
 {
-	string what = GetMessage(sArgs, "Emote what?");	// what
-	SendToAll(p->playername + " " + what + "\n", 0, p->room);	// emote it
+	string what = GetMessage(sArgs, "Emote what?");
+	SendToAll(p->playername + " " + what + "\n", 0, p->room);
 }
 
 void DoWho(tPlayer * p, istream & sArgs)
@@ -377,28 +377,23 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 
 void LoadCommands()
 {
-	commandmap["/look"]      = new tCommand("/look", DoLook);
+	commandmap["/look"]      = new tCommand("/look",                         DoLook);
 	commandmap["/l"]         = commandmap["/look"];
-	commandmap["/quit"]      = new tCommand("/quit", DoQuit);
-
-	commandmap["/help"]      = new tCommand("/help", DoHelp);
-
-
-	//commandmap["look"]      = DoLook;       // look around
-	//commandmap["l"]         = DoLook;       // synonymm for look
-	//commandmap["quit"]      = DoQuit;       // bye bye
-	//commandmap["say"]       = DoSay;        // say something
-	//commandmap["\""]        = DoSay;        // synonym for say
-	//commandmap["tell"]      = DoTell;       // tell someone
-	//commandmap["shut"]      = DoShutdown;   // shut MUD down
-	//commandmap["help"]      = DoHelp;       // show help message
-	//commandmap["setflag"]   = DoSetFlag;    // set a player's flag
-	//commandmap["clearflag"] = DoClearFlag;  // clear a player's flag
-	//commandmap["save"]      = DoSave;       // save a player
-	//commandmap["chat"]      = DoChat;       // chat
-	//commandmap["emote"]     = DoEmote;      // emote
-	//commandmap["/me"]       = DoEmote;      // synonym for emote
-	//commandmap["who"]       = DoWho;        // who is on?
-	//commandmap["info"]      = DoInfo;       // Show information on the player.
-	//commandmap["tp"]        = DoTeleport;
+	commandmap["/help"]      = new tCommand("/help",                         DoHelp);
+	commandmap["/save"]      = new tCommand("/save",                         DoSave);
+	commandmap["/quit"]      = new tCommand("/quit",                         DoQuit);
+	commandmap["/me"]        = new tCommand("/me",                           DoEmote);
+	commandmap["/who"]       = new tCommand("/who",                          DoWho);
+	commandmap["/tp"]        = new tCommand("/tp",        TpCanExecute,      DoTeleport);
+	commandmap["/setflag"]   = new tCommand("/setflag",   AdminCanExecute,   DoSetFlag);
+	commandmap["/clearflag"] = new tCommand("/clearflag", AdminCanExecute,   DoClearFlag);
+	commandmap["/shutdown"]  = new tCommand("/shutdown",  AdminCanExecute,   DoShutdown);
+	commandmap["/info"]      = new tCommand("/info",      AdminCanExecute,   DoInfo);
+	commandmap["/say"]       = new tCommand("/say",       GaglessCanExecute, DoSay);
+	commandmap["\""]         = commandmap["/say"];
+	commandmap["/tell"]      = new tCommand("/tell",      GaglessCanExecute, DoTell);
+	commandmap["/whisper"]   = commandmap["/tell"];
+	commandmap["/msg"]       = commandmap["/tell"];
+	commandmap["/m"]         = commandmap["/tell"];
+	commandmap["/shout"]     = new tCommand("/shout",     GaglessCanExecute, DoShout);
 } // end of LoadCommands

@@ -30,7 +30,7 @@ tPlayerList playerlist;
 // map of all rooms
 tRoomMap roommap;
 // map of known commands(eg. look, quit, north etc.)
-map<string, tHandler> commandmap;
+tCommandMap commandmap;
 // map of things to do for various connection states
 map<tConnectionStates, tHandler> statemap;
 // messages

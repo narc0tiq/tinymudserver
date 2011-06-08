@@ -66,4 +66,70 @@ Disconnects you from the game AFTER informing the server that you're doing so. I
 Gives you information on what commands are available, or detailed information on a single command. But you probably knew that already, I mean you did have to do /help /help to get here.
 ]]>
 	</message>
+	<message name="/save-shorthelp">Save your state.</message>
+	<message name="/save-longhelp"><![CDATA[Usage: /save
+
+Saves your current state on the server. You should really never need to use this (the server automatically does it for you), but if it makes you feel happier to do it...
+]]>
+	</message>
+	<message name="/me-shorthelp">Emotes.</message>
+	<message name="/me-longhelp"><![CDATA[Usage: /me <something>
+
+You almost definitely already know how to use this, but in case you didn't... oh, balls, just try it, will you? Type in: /me is a noob.
+]]>
+	</message>
+	<message name="/who-shorthelp">Who's on (first?)</message>
+	<message name="/who-longhelp"><![CDATA[Usage: /who
+
+Tells you who's on the server (and where they are).
+]]>
+	</message>
+	<message name="/tp-shorthelp">Teleport yourself or another player</message>
+	<message name="/tp-longhelp"><![CDATA[Usage: /tp [who] <roomnum>
+
+Teleports yourself or another player to a room of your choice. Examples: /tp 1337 and /tp Nick 1337
+]]>
+	</message>
+	<message name="/setflag-shorthelp">Set a flag on a player</message>
+	<message name="/setflag-longhelp"><![CDATA[Usage: /setflag <who> <flag>
+
+Sets a flag on the target player. Example flags: admin, gagged
+]]>
+	</message>
+	<message name="/clearflag-shorthelp">Remove a flag from a player</message>
+	<message name="/clearflag-longhelp"><![CDATA[Usage: /clearflag <who> <flag>
+
+Removes a flag from the target player. Example flags: admin, gagged
+]]>
+	</message>
+	<message name="/shutdown-shorthelp">Stops the server.</message>
+	<message name="/shutdown-longhelp"><![CDATA[Usage: /shutdown
+
+Stops the server immediately. You probably don't want to do this.
+]]>
+	</message>
+	<message name="/info-shorthelp">Get info on a player.</message>
+	<message name="/info-longhelp"><![CDATA[Usage: /info <who>
+
+Tells you some information about the target player. Currently just the flags set on that player.
+]]>
+	</message>
+	<message name="/say-shorthelp">Say something.</message>
+	<message name="/say-longhelp"><![CDATA[Usage: /say <what>
+
+Causes you to say something to everyone in the current room with you.
+]]>
+	</message>
+	<message name="/tell-shorthelp">Tell someone something.</message>
+	<message name="/tell-longhelp"><![CDATA[Usage: /tell <who> <what>
+
+Whispers something to the target player.
+]]>
+	</message>
+	<message name="/shout-shorthelp">Shout something.</message>
+	<message name="/say-longhelp"><![CDATA[Usage: /shout <what>
+
+Causes you to say something to everyone on the server.
+]]>
+	</message>
 </messages>
