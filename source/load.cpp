@@ -60,16 +60,14 @@ void LoadMessages()
 		xmleMsgs = docHandle.FirstChild("messages").Element();
 		if( xmleMsgs != NULL )
 		{
-			 for( node = xmleMsgs->FirstChild( "message" );
-			      node;
-			      node = node->NextSibling( "message" ) )
+			for( node = xmleMsgs->FirstChild( "message" );
+			     node;
+			     node = node->NextSibling( "message" ) )
 			{
-
 				string sMessageCode, sMessageText;
 
-				sMessageCode = node->FirstChild( "name" )->ToElement()->GetText();
-
-				sMessageText = node->FirstChild( "text" )->ToElement()->GetText();
+				sMessageCode = node->ToElement()->Attribute( "name" );
+				sMessageText = node->ToElement()->GetText();
 
 				messagemap[ tolower(sMessageCode) ] = sMessageText;
 			}

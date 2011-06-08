@@ -1,9 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <messages>
-	<message>
-		<name>welcome</name>
-		<text>
-		<![CDATA[
+	<message name="welcome"><![CDATA[
 +------------------- [red]narc.ro MUD Server[/color] ------------------+
 | This is a test of a MUD that we are playing with to see |
 | if we could create a simple MUD system / adventure game |
@@ -14,44 +11,27 @@
 +---------------------------------------------------------+
 
 ]]>
-		</text>
 	</message>
-	<message>
-		<name>motd</name>
-		<text>
-		<![CDATA[
-
+	<message name="motd"><![CDATA[
 Message Of The Day (MOTD)
 
 Welcome to the game world...
 
 ]]>
-		</text>
 	</message>
-	<message>
-		<name>new_player</name>
-		<text>
-		<![CDATA[
+	<message name="new_player"><![CDATA[
 
-Welcome to our MUD! Please read the help files to become familiar with our rules. :)
+Welcome to our MUD! Please remember that anything may break at any time. :)
 
 ]]>
-		</text>
 	</message>
-	<message>
-		<name>existing_player</name>
-		<text>
-		<![CDATA[
+	<message name="existing_player"><![CDATA[
 
-Welcome back! We hope you enjoy playing today.
+Welcome back!
 
 ]]>
-		</text>
 	</message>
-	<message>
-		<name>help</name>
-		<text>
-		<![CDATA[
+	<message name="help"><![CDATA[
 
 ---- HELP system ----
 
@@ -67,6 +47,5 @@ setflag (who) (what) - sets a flag for a player
 clearflag (who) (what) - clears a flag for a player
 
 ]]>
-		</text>
 	</message>
 </messages>
