@@ -180,13 +180,13 @@ void LoadXMLRooms()
 // build up our commands map and connection states
 void LoadThings()
 {
+	LoadMessages();
 
 	LoadCommands();
 	LoadStates();
 
 	// load files
 	LoadControlFile();
-	LoadMessages();
 //	LoadRooms();
 //	LoadXMLRooms();
 	LoadScreens();

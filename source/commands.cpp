@@ -275,8 +275,17 @@ void DoShutdown(tPlayer * p, istream & sArgs)
 
 void DoHelp(tPlayer * p, istream & sArgs)
 {
-	NoMore(p, sArgs);	// check no more input
-	*p << messagemap ["help"];
+	NoMore(p, sArgs); // check no more input
+
+	//*p << messagemap ["help"];
+
+	for(tCommandMapIterator iter = commandmap.begin(); iter != commandmap.end(); ++iter)
+	{
+		if(!iter->second->CanExecute(p))
+			continue;
+
+		*p << iter->first << "\t" << iter->second->shorthelp << "\n";
+	}
 } // end of DoHelp
 
 void DoTeleport(tPlayer * p, istream & sArgs)
@@ -354,7 +363,10 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 void LoadCommands()
 {
 	commandmap["/look"]      = new tCommand("/look", DoLook);
-	commandmap["/quit"]      = new tCommand("/quit", DoLook);
+	commandmap["/l"]         = commandmap["/look"];
+	commandmap["/quit"]      = new tCommand("/quit", DoQuit);
+
+	commandmap["/help"]      = new tCommand("/help", DoHelp);
 
 
 	//commandmap["look"]      = DoLook;       // look around
