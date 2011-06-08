@@ -41,7 +41,7 @@ void NoMore(tPlayer * p, istream & sArgs)
 string GetMessage(istream & sArgs, const string & noMessageError)
 {
 	string message;
-	sArgs >> ws;	// skip leading spaces
+	sArgs >> ws; // skip leading spaces
 	getline(sArgs, message); // get rest of line
 	if(message.empty()) // better have something
 		throw runtime_error(noMessageError);
@@ -354,24 +354,29 @@ void DoInfo(tPlayer * p, istream & sArgs)
 } // end of DoShowFlags
 /* process commands when player is connected */
 
-void ProcessCommand(tPlayer * p, istream & sArgs)
+void ProcessCommand(tPlayer * p, istream& sArgs)
 {
 	string command;
-	sArgs >> command >> ws;	 // get command, eat whitespace after it
+	streampos origin = sArgs.tellg();
+	sArgs >> command >> ws; // get command, eat whitespace after it
 
-	// first see if they have entered a movement command(eg. n, s, e, w)
-	set<string>::const_iterator direction_iter = directionset.find(command);
-	if(direction_iter != directionset.end())
-		DoDirection(p, command);
-	else
-	{
-		// otherwise, look up command in commands map
-		tCommandMapIterator command_iter = commandmap.find(command);
-		if(command_iter == commandmap.end())
-			throw runtime_error("Huh?");
+	// First, is it a command?
+	tCommandMapIterator command_iter = commandmap.find(command);
+	if(command_iter != commandmap.end())
+		return command_iter->second->Execute(p, sArgs);
 
-		command_iter->second->Execute(p,sArgs); // execute command(eg. DoLook)
-	}
+	// If not, is it a direction in the current room?
+	tRoom* r = FindRoom(p->room);
+	tExitMapIterator iter = r->exits.find(command);
+
+	if(iter != r->exits.end())
+		return DoDirection(p, command);
+
+	// If not, then it's a /say
+	sArgs.clear(); // Clear EOF bit
+	sArgs.seekg(origin);
+	commandmap["/say"]->Execute(p, sArgs);
+
 } /* end of ProcessCommand */
 
 
