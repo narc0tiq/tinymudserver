@@ -59,10 +59,10 @@ string GetFlag(istream & sArgs, const string & noFlagError)
 	return flag;
 } // end of GetFlag
 
-void PlayerToRoom(tPlayer * p,			 // which player
+void PlayerToRoom(tPlayer * p, // which player
 	const int & vnum, // which room
-	const string & sPlayerMessage,	// what to tell the player
-	const string & sOthersDepartMessage,	// tell people in original room
+	const string & sPlayerMessage, // what to tell the player
+	const string & sOthersDepartMessage, // tell people in original room
 	const string & sOthersArrriveMessage) // tell people in new room
 {
 	tRoom * r = FindRoom(vnum); // find the destination room(throws exception if not there)
@@ -70,11 +70,11 @@ void PlayerToRoom(tPlayer * p,			 // which player
 	if(r == NULL)
 		throw runtime_error("Can't move player: you said /WHAT/ room?");
 
-	SendToAll(sOthersDepartMessage, p, p->room);	// tell others where s/he went
-	p->room = vnum;	// move to new room
+	SendToAll(sOthersDepartMessage, p, p->room); // tell others where s/he went
+	p->room = vnum; // move to new room
 	*p << sPlayerMessage; // tell player
-	p->DoCommand("look");	 // look around new room
-	SendToAll(sOthersArrriveMessage, p, p->room);	// tell others ws/he has arrived
+	p->DoCommand("/look"); // look around new room
+	SendToAll(sOthersArrriveMessage, p, p->room); // tell others ws/he has arrived
 } // end of PlayerToRoom
 
 void DoDirection(tPlayer * p, const string & sArgs)
@@ -353,11 +353,8 @@ void ProcessCommand(tPlayer * p, istream & sArgs)
 
 void LoadCommands()
 {
-	tCommand* lookCommand = new tCommand();
-	lookCommand->CanExecute = AnyCanExecute;
-	lookCommand->Execute = DoLook;
-
-	commandmap["look"]      = lookCommand;
+	commandmap["/look"]      = new tCommand("/look", DoLook);
+	commandmap["/quit"]      = new tCommand("/quit", DoLook);
 
 
 	//commandmap["look"]      = DoLook;       // look around

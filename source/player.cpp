@@ -246,7 +246,7 @@ void tPlayer::ProcessRead()
 		close(s);
 		cerr << "Connection " << s << " closed" << endl;
 		s = NO_SOCKET;
-		DoCommand("quit");	// tell others the s/he has left
+		DoCommand("/quit");	// tell others the s/he has left
 		return;
 	}
 

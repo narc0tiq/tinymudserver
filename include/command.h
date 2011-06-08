@@ -13,8 +13,13 @@ class tCommand
 		string shorthelp;
 		string longhelp;
 
-		tPermHandler CanExecute;
-		tHandler Execute;
+		const tPermHandler CanExecute;
+		const tHandler Execute;
+
+		tCommand(string sh, string lh, tPermHandler ph, tHandler eh):
+			shorthelp(sh), longhelp(lh), CanExecute(ph), Execute(eh) {}
+		tCommand(string cmdName, tPermHandler ph, tHandler eh);
+		tCommand(string cmdName, tHandler eh);
 };
 
 typedef std::map <string, tCommand*> tCommandMap;

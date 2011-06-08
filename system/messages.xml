@@ -69,4 +69,28 @@ clearflag (who) (what) - clears a flag for a player
 ]]>
 		</text>
 	</message>
+	<message>
+		<name>/look-shorthelp</name>
+		<text><![CDATA[Look around]]></text>
+	</message>
+	<message>
+		<name>/look-longhelp</name>
+		<text><![CDATA[
+Usage: /look
+
+Looks around and reports back to you the name (and number) of the room you're in, a description of what you can see, and the exits from the room.
+]]></text>
+	</message>
+	<message>
+		<name>/quit-shorthelp</name>
+		<text><![CDATA[The end of the world as you know it.]]></text>
+	</message>
+	<message>
+		<name>/quit-longhelp</name>
+		<text><![CDATA[
+Usage: /quit
+
+Disconnects you from the game AFTER informing the server that you're doing so. It's considered a polite thing to do, if you're going away.
+]]></text>
+	</message>
 </messages>

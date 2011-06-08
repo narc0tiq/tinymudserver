@@ -31,8 +31,8 @@ void PlayerEnteredGame(tPlayer * p, const string & message)
 	p->prompt = PROMPT;				 // default prompt
 	*p << "Welcome, " << p->playername << "\n\n"; // greet them
 	*p << message;
-	*p << messagemap ["motd"];	// message of the day
-	p->DoCommand("look");		 // new player looks around
+	*p << messagemap["motd"];	// message of the day
+	p->DoCommand("/look");		 // new player looks around
 
 	// tell other players
 	SendToAll(
