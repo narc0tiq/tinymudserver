@@ -3,6 +3,7 @@
 
 #include <set>
 #include <list>
+#include <sstream>
 
 #include <unistd.h>	 // for close
 #include "strings.h"	// for ciLess
@@ -35,6 +36,8 @@ private:
 	string outbuf;			// pending output
 	string inbuf;			 // pending input
 	string address;		 // address player is from
+
+	ostringstream outstr;
 
 public:
 	tConnectionStates connstate;			/* connection state */
@@ -85,7 +88,9 @@ public:
 	template<typename T>
 	tPlayer & operator<<(const T & i)
 	{
-		outbuf += MAKE_STRING(i);
+		outstr.str("");
+		outstr << i;
+		outbuf += outstr.str();
 		return *this;
 	}
 

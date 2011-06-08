@@ -17,6 +17,7 @@ warranty, and with no claim as to its suitability for any purpose.
 #include <stdexcept>
 #include <iostream>
 #include <stdlib.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -288,7 +289,7 @@ void DoHelp(tPlayer * p, istream & sArgs)
 			if(!iter->second->CanExecute(p))
 				continue;
 
-			*p << iter->first << "\t" << iter->second->shorthelp << "\n";
+			*p << setiosflags(ios::left) << setw(15) << iter->first << iter->second->shorthelp << "\n";
 		}
 	}
 	else
