@@ -31,105 +31,98 @@ Welcome back!
 
 ]]>
 	</message>
-	<message name="help"><![CDATA[
-!!!DEPRECATED!!!
----- HELP system ----
-
-look - look around
-quit - leave the game
-say (something) - talk to people in the current room
-tell (someone) (something) - talk to a single player
-shutdown - shut the MUD down
-help - this help text
-goto (room) - go to another room
-transfer (someone) [ (where) ] - transfer another player here, or to another room
-setflag (who) (what) - sets a flag for a player
-clearflag (who) (what) - clears a flag for a player
-
-]]>
-	</message>
 	<message name="/look-shorthelp">Look around</message>
-	<message name="/look-longhelp"><![CDATA[Usage: /look
+	<message name="/look-longhelp"><![CDATA[Usage: [bold]/look[/color]
 
 Looks around and reports back to you the name (and number) of the room you're in, a description of what you can see, and the exits from the room.
 ]]>
 	</message>
 	<message name="/quit-shorthelp">The end of the world as you know it.</message>
-	<message name="/quit-longhelp"><![CDATA[Usage: /quit
+	<message name="/quit-longhelp"><![CDATA[Usage: [bold]/quit[/color]
 
 Disconnects you from the game AFTER informing the server that you're doing so. It's considered a polite thing to do, if you're going away.
 ]]>
 	</message>
 	<message name="/help-shorthelp">This help text.</message>
-	<message name="/help-longhelp"><![CDATA[Usage: /help [command]
+	<message name="/help-longhelp"><![CDATA[Usage: [bold]/help [command][/color]
 
 Gives you information on what commands are available, or detailed information on a single command. But you probably knew that already, I mean you did have to do /help /help to get here.
 ]]>
 	</message>
 	<message name="/save-shorthelp">Save your state.</message>
-	<message name="/save-longhelp"><![CDATA[Usage: /save
+	<message name="/save-longhelp"><![CDATA[Usage: [bold]/save[/color]
 
 Saves your current state on the server. You should really never need to use this (the server automatically does it for you), but if it makes you feel happier to do it...
 ]]>
 	</message>
 	<message name="/me-shorthelp">Emotes.</message>
-	<message name="/me-longhelp"><![CDATA[Usage: /me <something>
+	<message name="/me-longhelp"><![CDATA[Usage: [bold]/me <something>[/color]
 
 You almost definitely already know how to use this, but in case you didn't... oh, balls, just try it, will you? Type in: /me is a noob.
 ]]>
 	</message>
 	<message name="/who-shorthelp">Who's on (first?)</message>
-	<message name="/who-longhelp"><![CDATA[Usage: /who
+	<message name="/who-longhelp"><![CDATA[Usage: [bold]/who[/color]
 
 Tells you who's on the server (and where they are).
 ]]>
 	</message>
 	<message name="/tp-shorthelp">Teleport yourself or another player</message>
-	<message name="/tp-longhelp"><![CDATA[Usage: /tp [who] <roomnum>
+	<message name="/tp-longhelp"><![CDATA[Usage: [bold]/tp [who] <roomnum>[/color]
 
 Teleports yourself or another player to a room of your choice. Examples: /tp 1337 and /tp Nick 1337
 ]]>
 	</message>
-	<message name="/setflag-shorthelp">Set a flag on a player</message>
-	<message name="/setflag-longhelp"><![CDATA[Usage: /setflag <who> <flag>
+	<message name="/flag-shorthelp">Set or clear flags from players.</message>
+	<message name="/flag-longhelp"><![CDATA[Usage: [bold]/flag <set|clear> <flag> [who][/color]
 
-Sets a flag on the target player. Example flags: admin, gagged
-]]>
-	</message>
-	<message name="/clearflag-shorthelp">Remove a flag from a player</message>
-	<message name="/clearflag-longhelp"><![CDATA[Usage: /clearflag <who> <flag>
-
-Removes a flag from the target player. Example flags: admin, gagged
+Sets or clears a flag from the target player. If the player is omitted, the default target is yourself.
 ]]>
 	</message>
 	<message name="/shutdown-shorthelp">Stops the server.</message>
-	<message name="/shutdown-longhelp"><![CDATA[Usage: /shutdown
+	<message name="/shutdown-longhelp"><![CDATA[Usage: [bold]/shutdown[/color]
 
 Stops the server immediately. You probably don't want to do this.
 ]]>
 	</message>
 	<message name="/info-shorthelp">Get info on a player.</message>
-	<message name="/info-longhelp"><![CDATA[Usage: /info <who>
+	<message name="/info-longhelp"><![CDATA[Usage: [bold]/info <who>[/color]
 
 Tells you some information about the target player. Currently just the flags set on that player.
 ]]>
 	</message>
 	<message name="/say-shorthelp">Say something.</message>
-	<message name="/say-longhelp"><![CDATA[Usage: /say <what>
+	<message name="/say-longhelp"><![CDATA[Usage: [bold]/say <what>[/color]
 
 Causes you to say something to everyone in the current room with you.
 ]]>
 	</message>
 	<message name="/tell-shorthelp">Tell someone something.</message>
-	<message name="/tell-longhelp"><![CDATA[Usage: /tell <who> <what>
+	<message name="/tell-longhelp"><![CDATA[Usage: [bold]/tell <who> <what>[/color]
 
 Whispers something to the target player.
 ]]>
 	</message>
 	<message name="/shout-shorthelp">Shout something.</message>
-	<message name="/shout-longhelp"><![CDATA[Usage: /shout <what>
+	<message name="/shout-longhelp"><![CDATA[Usage: [bold]/shout <what>[/color]
 
 Causes you to say something to everyone on the server.
+]]>
+	</message>
+	<message name="/room-shorthelp">Maintain rooms.</message>
+	<message name="/room-longhelp"><![CDATA[Usage: [bold]/room <add|delete> <roomnum>[/color]
+       [bold]/room name <newname>[/color]
+       [bold]/room desc [+|-] [newdesc][/color]
+       [bold]/room exit <direction> [targetroomnum][/color]
+
+Allows you to create, update, or delete rooms. Remember that new rooms will not have any exits. Also, exits are not bidirectional -- if you give room 1500 an exit W to room 1501, this does not create an exit E from 1501 back to 1500.
+
+Room descriptions can be viewed in plain text (with formatting markers visible), appended to, removed from, cleared, or set:
+ * [yellow]/room desc[/color] will give you the room description in plain text, i.e. without hiding the formatting markers.
+ * [yellow]/room desc new description[/color] will set the current room description to "new description".
+ * [yellow]/room desc + new line[/color] will add the line "new line" to the current room description.
+ * [yellow]/room desc - deleted text[/color] will remove all instances of "deleted text" from the current room description.
+ * [yellow]/room desc -[/color] will clear the room description altogether, leaving it empty.
 ]]>
 	</message>
 </messages>

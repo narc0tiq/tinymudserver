@@ -102,9 +102,12 @@ public:
 	void Load();					 // load player from disk
 	void Save();					 // save player to disk
 
-	tPlayer * GetPlayer(istream & sArgs,
-											const string & noNameMessage = "Do that to who?",
-											const bool & notme = false);
+	tPlayer * GetPlayer(istream& sArgs,
+		const string& noNameMessage = "Do that to who?",
+		const bool& notme = false);
+	tPlayer * GetPlayer(string& sArgs,
+		const string& noNameMessage = "Do that to who?",
+		const bool& notme = false);
 
 	bool HaveFlag	(const string & name);	// is flag set?
 	void NeedFlag	(const string & name);	// flag must be set

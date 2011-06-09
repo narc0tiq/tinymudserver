@@ -1,13 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" ?>
 <room name="Test Room">
-	<description><![CDATA[
+    <description>
+        <![CDATA[
 This room is a test. Specifically, a multiple-choice test. You're wondering how you managed to get in a piece of paper, but nonetheless, you're right here.
 
 There is a portal in the room. An orange one. You can see room 1000 through it.
 ]]>
-	</description>
-	<exits>
-		<exit direction="portal" target="1000" />
-	</exits>
-	<npcs />
+</description>
+    <exits>
+        <exit direction="portal" target="1500" />
+    </exits>
 </room>
