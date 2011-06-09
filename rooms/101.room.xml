@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<room name="Test Room">
+    <description>
+        <![CDATA[
+This is a fight room...
+]]>
+</description>
+    <exits>
+        <exit direction="ladder" target="1337" />
+    </exits>
+</room>
