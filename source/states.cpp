@@ -32,6 +32,13 @@ void PlayerEnteredGame(tPlayer * p, const string & message)
 	*p << "Welcome, " << p->playername << "\n\n"; // greet them
 	*p << message;
 	*p << messagemap["motd"];	// message of the day
+
+	// Does the room they're in still exist?
+	tRoom* here = LoadRoom(p->room);
+
+	if(here == NULL) // Nope, got blown away at some point.
+		p->room = INITIAL_ROOM;
+
 	p->DoCommand("/look");		 // new player looks around
 
 	// tell other players
@@ -223,7 +230,7 @@ void LoadStates()
 	statemap [eAwaitingNewName]			= ProcessNewPlayerName; // new player
 	statemap [eAwaitingNewPassword]	= ProcessNewPassword;
 	statemap [eConfirmPassword]			= ProcessConfirmPassword;
-	statemap[ eAwaitingStats ]			= ProcessStats;
+	statemap [eAwaitingStats]			= ProcessStats;
 
 	statemap [ePlaying]							= ProcessCommand;	 // playing
 
