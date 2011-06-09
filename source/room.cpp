@@ -29,7 +29,7 @@ void AddNPC( tRoom* room, string NPC, int number )
 {
 	tNPC *newNPC;
 	
-	newNPC = FindNPC( NPC );
+	newNPC = NewNPC( NPC );
 }
 
 tRoom* LoadRoom(const int& vnum)

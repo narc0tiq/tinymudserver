@@ -31,7 +31,8 @@ public:
 typedef std::map <string, tNPCMaster*> tNPCMMap;
 typedef tNPCMMap::const_iterator tNPCMMapIterator;
 
-tNPC* FindNPC(const string name);
+tNPC* NewNPC(const string name);
+tNPCMaster* FindNPC(const string name);
 //tNPC* LoadNPC(const int& vnum);
 
 #endif // TINYMUDSERVER_ROOM_H
