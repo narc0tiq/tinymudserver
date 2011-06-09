@@ -48,17 +48,17 @@ string GetMessage(istream & sArgs, const string & noMessageError)
 	return message;
 } // end of GetMessage
 
-// helper function for get a flag
-string GetFlag(istream & sArgs, const string & noFlagError)
+// fetch a word out of a stream, with configurable error messages
+string GetWord(istream& sArgs, const string& noWordError, const string& badWordError)
 {
-	string flag;
-	sArgs >> ws >> flag;
-	if(flag.empty())
-		throw runtime_error(noFlagError);
-	if(flag.find_first_not_of(valid_player_name) != string::npos)
-		throw runtime_error("Flag name not valid.");
-	return flag;
-} // end of GetFlag
+	string theword;
+	sArgs >> ws >> theword;
+	if(theword.empty())
+		throw runtime_error(noWordError);
+	if(theword.find_first_not_of(valid_player_name) != string::npos)
+		throw runtime_error(badWordError);
+	return theword;
+}
 
 void PlayerToRoom(tPlayer * p, // which player
 	const int & vnum, // which room
@@ -222,31 +222,47 @@ void DoWho(tPlayer * p, istream & sArgs)
 	*p << count << " player(s)\n";
 } // end of DoWho
 
-void DoSetFlag(tPlayer * p, istream & sArgs)
+void DoFlag(tPlayer * p, istream & sArgs)
 {
-	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: setflag <who> <flag>");	// who
-	string flag = GetFlag(sArgs, "Set which flag?"); // what
-	NoMore(p, sArgs);	// check no more input
-	if(ptarget->flags.find(flag) != ptarget->flags.end())		// check not set
-		throw runtime_error("Flag already set.");
+	string action = GetWord(sArgs, "Usage: /flag <set|clear> <flag> [who]", "Eh?");
+	bool set = false;
+	if(ciStringEqual(action, "set"))
+		set = true;
+	else if(!ciStringEqual(action, "clear"))
+		throw runtime_error("Well, do you want to [yellow]set[/color] or [yellow]clear[/color] a flag?");
 
-	ptarget->flags.insert(flag);	 // set it
-	*p << "You set the flag '" << flag << "' for " << ptarget->playername << "\n";	// confirm
+	string flag = GetWord(sArgs, "Which flag?", "Not a valid flag.");
 
-} // end of DoSetFlag
+	tPlayer* pTarget;
+	string targetname;
+	sArgs >> ws >> targetname;
 
-void DoClearFlag(tPlayer * p, istream & sArgs)
-{
-	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: clearflag <who> <flag>");	// who
-	string flag = GetFlag(sArgs, "Clear which flag?"); // what
-	NoMore(p, sArgs);	// check no more input
-	if(ptarget->flags.find(flag) == ptarget->flags.end())		// check set
-		throw runtime_error("Flag not set.");
+	if(targetname.empty())
+		pTarget = p;
+	else
+		pTarget = p->GetPlayer(targetname, "You should never see this", false);
 
-	ptarget->flags.erase(flag);		// clear it
-	*p << "You clear the flag '" << flag << "' for " << ptarget->playername << "\n";	// confirm
+	NoMore(p, sArgs);
 
-} // end of DoClearFlag
+	if(set)
+	{
+		if(pTarget->flags.find(flag) != pTarget->flags.end())
+			throw runtime_error("Flag already set.");
+
+		pTarget->flags.insert(flag);
+		*p << "You set the flag '" << flag << "' for " << pTarget->playername << "\n";
+		*pTarget << "You now have the flag '" << flag << "'\n";
+	}
+	else
+	{
+		if(pTarget->flags.find(flag) == pTarget->flags.end())
+			throw runtime_error("Flag already cleared.");
+
+		pTarget->flags.erase(flag);
+		*p << "You clear the flag '" << flag << "' for " << pTarget->playername << "\n";
+		*pTarget << "You no longer have the flag '" << flag << "'\n";
+	}
+}
 
 void DoShutdown(tPlayer * p, istream & sArgs)
 {
@@ -369,8 +385,7 @@ void LoadCommands()
 	commandmap["/me"]        = new tCommand("/me",                           DoEmote);
 	commandmap["/who"]       = new tCommand("/who",                          DoWho);
 	commandmap["/tp"]        = new tCommand("/tp",        TpCanExecute,      DoTeleport);
-	commandmap["/setflag"]   = new tCommand("/setflag",   AdminCanExecute,   DoSetFlag);
-	commandmap["/clearflag"] = new tCommand("/clearflag", AdminCanExecute,   DoClearFlag);
+	commandmap["/flag"]      = new tCommand("/flag",      AdminCanExecute,   DoFlag);
 	commandmap["/shutdown"]  = new tCommand("/shutdown",  AdminCanExecute,   DoShutdown);
 	commandmap["/info"]      = new tCommand("/info",      AdminCanExecute,   DoInfo);
 	commandmap["/say"]       = new tCommand("/say",       GaglessCanExecute, DoSay);

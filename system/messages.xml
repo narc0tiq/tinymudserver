@@ -90,16 +90,10 @@ Tells you who's on the server (and where they are).
 Teleports yourself or another player to a room of your choice. Examples: /tp 1337 and /tp Nick 1337
 ]]>
 	</message>
-	<message name="/setflag-shorthelp">Set a flag on a player</message>
-	<message name="/setflag-longhelp"><![CDATA[Usage: /setflag <who> <flag>
+	<message name="/flag-shorthelp">Set or clear flags from players.</message>
+	<message name="/flag-longhelp"><![CDATA[Usage: /flag <set|clear> <flag> [who]
 
-Sets a flag on the target player. Example flags: admin, gagged
-]]>
-	</message>
-	<message name="/clearflag-shorthelp">Remove a flag from a player</message>
-	<message name="/clearflag-longhelp"><![CDATA[Usage: /clearflag <who> <flag>
-
-Removes a flag from the target player. Example flags: admin, gagged
+Sets or clears a flag from the target player. If the player is omitted, the default target is yourself.
 ]]>
 	</message>
 	<message name="/shutdown-shorthelp">Stops the server.</message>
