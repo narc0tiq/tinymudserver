@@ -67,15 +67,14 @@ tRoom* LoadRoom(const int& vnum)
 	string roomname = xmleRoom->Attribute( "name" );
 	string roomdesc = xmleRoom->FirstChild( "description" )->ToElement()->GetText();
 
-	tRoom* newroom = new tRoom(roomname, roomdesc);
-
 	TiXmlElement* xmleExits = xmleRoom->FirstChild( "exits" )->ToElement();
 	if( xmleExits == NULL )
 	{
 		cerr << "Room file \"" << roomfile << "\" is invalid: No exits! " << endl;
-		delete(newroom);
 		return NULL;
 	}
+
+	tRoom* newroom = new tRoom(roomname, roomdesc);
 
 	for( TiXmlNode* node = xmleExits->FirstChild( "exit" );
 		 node;
