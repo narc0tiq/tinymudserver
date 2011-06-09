@@ -332,6 +332,10 @@ void DoInfo(tPlayer * p, istream & sArgs)
 	*p << "\n";
 } // end of DoShowFlags
 
+void DoNothing(tPlayer * p, istream & sArgs)
+{
+	return; // Do nothing, like the title says.
+}
 
 void ProcessCommand(tPlayer * p, istream& sArgs)
 {
@@ -380,4 +384,5 @@ void LoadCommands()
 	commandmap["/msg"]       = commandmap["/tell"];
 	commandmap["/m"]         = commandmap["/tell"];
 	commandmap["/shout"]     = new tCommand("/shout",     GaglessCanExecute, DoShout);
+	commandmap["/room"]      = new tCommand("/room",      AdminCanExecute,   DoNothing);
 } // end of LoadCommands
