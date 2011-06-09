@@ -113,7 +113,7 @@ Causes you to say something to everyone on the server.
 	<message name="/room-longhelp"><![CDATA[Usage: [bold]/room <add|delete> <roomnum>[/color]
        [bold]/room name <newname>[/color]
        [bold]/room desc [+|-] [newdesc][/color]
-       [bold]/room exit <direction> <targetroomnum>[/color]
+       [bold]/room exit <direction> [targetroomnum][/color]
 
 Allows you to create, update, or delete rooms. Remember that new rooms will not have any exits. Also, exits are not bidirectional -- if you give room 1500 an exit W to room 1501, this does not create an exit E from 1501 back to 1500.
 
