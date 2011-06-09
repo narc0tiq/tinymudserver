@@ -48,24 +48,32 @@ tPlayer * FindPlayer(const string & name)
 
 } /* end of FindPlayer */
 
-// member function to find another playing, including myself
+// member functions to find another playing, including myself
 tPlayer * tPlayer::GetPlayer(istream & args, const string & noNameMessage, const bool & notme)
 {
 	string name;
 	args >> name;
+	return this->GetPlayer(name, noNameMessage, notme);
+}
+
+tPlayer * tPlayer::GetPlayer(string& name, const string& noNameMessage, const bool& notme)
+{
 	if(name.empty())
 		throw runtime_error(noNameMessage);
+
 	tPlayer * p = this;
-	if(ciStringEqual(name, "me") || ciStringEqual(name, "self"))
-		p = this;
-	else
+
+	if(!ciStringEqual(name, "me") && !ciStringEqual(name, "self"))
 		p = FindPlayer(name);
+
 	if(p == NULL)
 		throw runtime_error(MAKE_STRING("Player " << tocapitals(name) << " is not connected."));
+
 	if(notme && p == this)
 		throw runtime_error("You cannot do that to yourself.");
+
 	return p;
-} // end of GetPlayer
+}
 
 string tPlayer::getPlayerNameCentered( unsigned int size )
 {
