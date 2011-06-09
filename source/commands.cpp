@@ -272,12 +272,13 @@ void DoRoomAdd(tPlayer* p, istream& sArgs)
 	if((sArgs.fail()) || (vnum == 0))
 		throw runtime_error("[bold]WHAT[/color] room do you want to add?");
 
-	if(roommap[vnum] != NULL)
+	tRoom* room = FindRoom(vnum);
+	if(room != NULL)
 		throw runtime_error("That room already exists!");
 
-	tRoom* newroom = new tRoom();
-	roommap[vnum] = newroom;
-	newroom->SaveRoom(vnum);
+	room = new tRoom();
+	roommap[vnum] = room;
+	room->SaveRoom(vnum);
 
 	*p << "Room " << vnum << " has been created!\n";
 }
@@ -290,15 +291,15 @@ void DoRoomDelete(tPlayer* p, istream& sArgs)
 	if((sArgs.fail()) || (vnum == 0))
 		throw runtime_error("[bold]WHAT[/color] room do you want to delete?");
 
-	if(roommap[vnum] == NULL)
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
 		throw runtime_error("That room doesn't exist!");
 
 	if(!RoomIsEmpty(vnum))
 		throw runtime_error("You can't delete a room with PEOPLE in it!");
 
-	tRoom* theroom = roommap[vnum];
 	roommap.erase(vnum);
-	delete(theroom);
+	delete(room);
 
 	DeleteRoom(vnum);
 
@@ -309,13 +310,14 @@ void DoRoomRename(tPlayer* p, istream& sArgs)
 {
 	int vnum = p->room;
 
-	if(roommap[vnum] == NULL)
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
 		throw runtime_error("You can't rename a room that doesn't exist! What are you doing here, anyway?");
 
 	string newname = GetMessage(sArgs, "What do you want to rename the room to?");
 
-	roommap[vnum]->roomname = newname;
-	roommap[vnum]->SaveRoom(vnum);
+	room->roomname = newname;
+	room->SaveRoom(vnum);
 
 	*p << "Room " << vnum << " is now named '" << newname << "'!\n";
 }
@@ -324,7 +326,8 @@ void DoRoomDescribe(tPlayer* p, istream& sArgs)
 {
 	int vnum = p->room;
 
-	if(roommap[vnum] == NULL)
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
 		throw runtime_error("You can't describe a room that doesn't exist! What are you doing here, anyway?");
 
 	string firstword;
@@ -332,7 +335,7 @@ void DoRoomDescribe(tPlayer* p, istream& sArgs)
 
 	if(sArgs.fail()) // just /room desc by itself
 	{
-		string desc = roommap[vnum]->description;
+		string desc = room->description;
 
 		desc = FindAndReplace(desc, "]", "\\]");
 
@@ -342,11 +345,11 @@ void DoRoomDescribe(tPlayer* p, istream& sArgs)
 	{
 		string newline = GetMessage(sArgs, "You need to specify a new line of text, if you're going to do that!");
 
-		roommap[vnum]->description += newline + "\n";
+		room->description += newline + "\n";
 		*p << "Description updated!\n";
 		p->DoCommand("/room desc");
 
-		roommap[vnum]->SaveRoom(vnum);
+		room->SaveRoom(vnum);
 	}
 	else if(ciStringEqual(firstword, "-")) // /room desc - delete text or clear description
 	{
@@ -354,22 +357,22 @@ void DoRoomDescribe(tPlayer* p, istream& sArgs)
 		getline(sArgs, newline);
 
 		if(newline.empty()) // Want to clear the whole damn thing?
-			roommap[vnum]->description = "";
+			room->description = "";
 		else
 		{
-			string desc = roommap[vnum]->description;
+			string desc = room->description;
 
 			desc = FindAndReplace(desc, newline, "");
 			desc = FindAndReplace(desc, "  ", " ");
 			desc = FindAndReplace(desc, "\n\n", "\n");
 
-			roommap[vnum]->description = desc;
+			room->description = desc;
 		}
 
 		*p << "Description updated!\n";
 		p->DoCommand("/room desc");
 
-		roommap[vnum]->SaveRoom(vnum);
+		room->SaveRoom(vnum);
 	}
 	else // not a +, not a -, but definitely words -- user wants to replace description.
 	{
@@ -377,12 +380,12 @@ void DoRoomDescribe(tPlayer* p, istream& sArgs)
 		getline(sArgs, newline);
 		newline = firstword + " " + newline;
 
-		roommap[vnum]->description = newline;
+		room->description = newline;
 
 		*p << "Description updated!\n";
 		p->DoCommand("/room desc");
 
-		roommap[vnum]->SaveRoom(vnum);
+		room->SaveRoom(vnum);
 	}
 }
 
@@ -393,8 +396,8 @@ void DoRoomExit(tPlayer* p, istream& sArgs)
 	int target = 0;
 	sArgs >> ws >> target;
 
-	tRoom* room = roommap[p->room];
-
+	int vnum = p->room;
+	tRoom* room = FindRoom(vnum);
 	if(room == NULL)
 		throw runtime_error("You're not in a room! How did you get here?");
 
@@ -406,20 +409,21 @@ void DoRoomExit(tPlayer* p, istream& sArgs)
 			throw runtime_error("You can't delete an exit that doesn't exist!");
 
 		room->exits.erase(direction);
-		room->SaveRoom(p->room);
+		room->SaveRoom(vnum);
 
 		*p << "There is no longer an exit from this room in the '" << direction << "' direction.\n";
 	}
 	else
 	{
-		LoadRoom(target);
+		tRoom* targetroom = FindRoom(target);
 
-		if(roommap[target] == NULL)
+		if(targetroom == NULL)
 			throw runtime_error("No, you can't make an exit to a room that doesn't exist! Bad " + p->playername + "!");
 
 		room->exits[direction] = target;
 
-		room->SaveRoom(p->room);
+		room->SaveRoom(vnum);
+		*p << "There is now an exit from this room to room " << target << " in the '" << direction << "' direction.\n";
 	}
 }
 
