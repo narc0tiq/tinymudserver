@@ -74,7 +74,7 @@ Teleports yourself or another player to a room of your choice. Examples: /tp 133
 ]]>
 	</message>
 	<message name="/flag-shorthelp">Set or clear flags from players.</message>
-	<message name="/flag-longhelp"><![CDATA[Usage: /flag <set|clear> <flag> [who]
+	<message name="/flag-longhelp"><![CDATA[Usage: [bold]/flag <set|clear> <flag> [who][/color]
 
 Sets or clears a flag from the target player. If the player is omitted, the default target is yourself.
 ]]>
