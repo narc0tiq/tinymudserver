@@ -2,6 +2,7 @@
 <room name="The Other Test Room">
     <description>
         <![CDATA[The room looks very strange to you, with most of the walls being covered in a white substance that appears to be plaster, but is most definitely not. The ones that aren't white seem to be metallic dark gray rugged surfaces that look uninviting. You wonder how the hell you got here.
+There is a portal in the room. A blue one. You can see room 1337 through it.
 ]]>
 </description>
     <exits>
