@@ -48,17 +48,17 @@ string GetMessage(istream & sArgs, const string & noMessageError)
 	return message;
 } // end of GetMessage
 
-// helper function for get a flag
-string GetFlag(istream & sArgs, const string & noFlagError)
+// fetch a word out of a stream, with configurable error messages
+string GetWord(istream& sArgs, const string& noWordError, const string& badWordError)
 {
-	string flag;
-	sArgs >> ws >> flag;
-	if(flag.empty())
-		throw runtime_error(noFlagError);
-	if(flag.find_first_not_of(valid_player_name) != string::npos)
-		throw runtime_error("Flag name not valid.");
-	return flag;
-} // end of GetFlag
+	string theword;
+	sArgs >> ws >> theword;
+	if(theword.empty())
+		throw runtime_error(noWordError);
+	if(theword.find_first_not_of(valid_player_name) != string::npos)
+		throw runtime_error(badWordError);
+	return theword;
+}
 
 void PlayerToRoom(tPlayer * p, // which player
 	const int & vnum, // which room
@@ -66,7 +66,7 @@ void PlayerToRoom(tPlayer * p, // which player
 	const string & sOthersDepartMessage, // tell people in original room
 	const string & sOthersArrriveMessage) // tell people in new room
 {
-	tRoom * r = FindRoom(vnum); // find the destination room(throws exception if not there)
+	tRoom* r = FindRoom(vnum); // find the destination room(throws exception if not there)
 
 	if(r == NULL)
 		throw runtime_error("Can't move player: you said /WHAT/ room?");
@@ -222,31 +222,228 @@ void DoWho(tPlayer * p, istream & sArgs)
 	*p << count << " player(s)\n";
 } // end of DoWho
 
-void DoSetFlag(tPlayer * p, istream & sArgs)
+void DoFlag(tPlayer * p, istream & sArgs)
 {
-	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: setflag <who> <flag>");	// who
-	string flag = GetFlag(sArgs, "Set which flag?"); // what
-	NoMore(p, sArgs);	// check no more input
-	if(ptarget->flags.find(flag) != ptarget->flags.end())		// check not set
-		throw runtime_error("Flag already set.");
+	string action = GetWord(sArgs, "Usage: /flag <set|clear> <flag> [who]", "Eh?");
+	bool set = false;
+	if(ciStringEqual(action, "set"))
+		set = true;
+	else if(!ciStringEqual(action, "clear"))
+		throw runtime_error("Well, do you want to [yellow]set[/color] or [yellow]clear[/color] a flag?");
 
-	ptarget->flags.insert(flag);	 // set it
-	*p << "You set the flag '" << flag << "' for " << ptarget->playername << "\n";	// confirm
+	string flag = GetWord(sArgs, "Which flag?", "Not a valid flag.");
 
-} // end of DoSetFlag
+	tPlayer* pTarget;
+	string targetname;
+	sArgs >> ws >> targetname;
 
-void DoClearFlag(tPlayer * p, istream & sArgs)
+	if(targetname.empty())
+		pTarget = p;
+	else
+		pTarget = p->GetPlayer(targetname, "You should never see this", false);
+
+	NoMore(p, sArgs);
+
+	if(set)
+	{
+		if(pTarget->flags.find(flag) != pTarget->flags.end())
+			throw runtime_error("Flag already set.");
+
+		pTarget->flags.insert(flag);
+		*p << "You set the flag '" << flag << "' for " << pTarget->playername << "\n";
+		*pTarget << "You now have the flag '" << flag << "'\n";
+	}
+	else
+	{
+		if(pTarget->flags.find(flag) == pTarget->flags.end())
+			throw runtime_error("Flag already cleared.");
+
+		pTarget->flags.erase(flag);
+		*p << "You clear the flag '" << flag << "' for " << pTarget->playername << "\n";
+		*pTarget << "You no longer have the flag '" << flag << "'\n";
+	}
+}
+
+void DoRoomAdd(tPlayer* p, istream& sArgs)
 {
-	tPlayer * ptarget = p->GetPlayer(sArgs, "Usage: clearflag <who> <flag>");	// who
-	string flag = GetFlag(sArgs, "Clear which flag?"); // what
-	NoMore(p, sArgs);	// check no more input
-	if(ptarget->flags.find(flag) == ptarget->flags.end())		// check set
-		throw runtime_error("Flag not set.");
+	int vnum;
+	sArgs >> vnum;
 
-	ptarget->flags.erase(flag);		// clear it
-	*p << "You clear the flag '" << flag << "' for " << ptarget->playername << "\n";	// confirm
+	if((sArgs.fail()) || (vnum == 0))
+		throw runtime_error("[bold]WHAT[/color] room do you want to add?");
 
-} // end of DoClearFlag
+	tRoom* room = FindRoom(vnum);
+	if(room != NULL)
+		throw runtime_error("That room already exists!");
+
+	room = new tRoom();
+	roommap[vnum] = room;
+	room->SaveRoom(vnum);
+
+	*p << "Room " << vnum << " has been created!\n";
+}
+
+void DoRoomDelete(tPlayer* p, istream& sArgs)
+{
+	int vnum;
+	sArgs >> vnum;
+
+	if((sArgs.fail()) || (vnum == 0))
+		throw runtime_error("[bold]WHAT[/color] room do you want to delete?");
+
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
+		throw runtime_error("That room doesn't exist!");
+
+	if(!RoomIsEmpty(vnum))
+		throw runtime_error("You can't delete a room with PEOPLE in it!");
+
+	roommap.erase(vnum);
+	delete(room);
+
+	DeleteRoom(vnum);
+
+	*p << "Room " << vnum << " has been deleted!\n";
+}
+
+void DoRoomRename(tPlayer* p, istream& sArgs)
+{
+	int vnum = p->room;
+
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
+		throw runtime_error("You can't rename a room that doesn't exist! What are you doing here, anyway?");
+
+	string newname = GetMessage(sArgs, "What do you want to rename the room to?");
+
+	room->roomname = newname;
+	room->SaveRoom(vnum);
+
+	*p << "Room " << vnum << " is now named '" << newname << "'!\n";
+}
+
+void DoRoomDescribe(tPlayer* p, istream& sArgs)
+{
+	int vnum = p->room;
+
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
+		throw runtime_error("You can't describe a room that doesn't exist! What are you doing here, anyway?");
+
+	string firstword;
+	sArgs >> firstword >> ws;
+
+	if(sArgs.fail()) // just /room desc by itself
+	{
+		string desc = room->description;
+
+		desc = FindAndReplace(desc, "]", "\\]");
+
+		*p << "Current description: \n" << desc << "\n";
+	}
+	else if(ciStringEqual(firstword, "+")) // /room desc + add a line
+	{
+		string newline = GetMessage(sArgs, "You need to specify a new line of text, if you're going to do that!");
+
+		room->description += newline + "\n";
+		*p << "Description updated!\n";
+		p->DoCommand("/room desc");
+
+		room->SaveRoom(vnum);
+	}
+	else if(ciStringEqual(firstword, "-")) // /room desc - delete text or clear description
+	{
+		string newline;
+		getline(sArgs, newline);
+
+		if(newline.empty()) // Want to clear the whole damn thing?
+			room->description = "";
+		else
+		{
+			string desc = room->description;
+
+			desc = FindAndReplace(desc, newline, "");
+			desc = FindAndReplace(desc, "  ", " ");
+			desc = FindAndReplace(desc, "\n\n", "\n");
+
+			room->description = desc;
+		}
+
+		*p << "Description updated!\n";
+		p->DoCommand("/room desc");
+
+		room->SaveRoom(vnum);
+	}
+	else // not a +, not a -, but definitely words -- user wants to replace description.
+	{
+		string newline;
+		getline(sArgs, newline);
+		newline = firstword + " " + newline;
+
+		room->description = newline;
+
+		*p << "Description updated!\n";
+		p->DoCommand("/room desc");
+
+		room->SaveRoom(vnum);
+	}
+}
+
+void DoRoomExit(tPlayer* p, istream& sArgs)
+{
+	string direction = GetWord(sArgs, "Usage: /room exit direction [target]", "That's not a direction!");
+
+	int target = 0;
+	sArgs >> ws >> target;
+
+	int vnum = p->room;
+	tRoom* room = FindRoom(vnum);
+	if(room == NULL)
+		throw runtime_error("You're not in a room! How did you get here?");
+
+	if(sArgs.fail() || (target == 0)) // deleting exit
+	{
+		tExitMapIterator iter = room->exits.find(direction);
+
+		if(iter == room->exits.end())
+			throw runtime_error("You can't delete an exit that doesn't exist!");
+
+		room->exits.erase(direction);
+		room->SaveRoom(vnum);
+
+		*p << "There is no longer an exit from this room in the '" << direction << "' direction.\n";
+	}
+	else
+	{
+		tRoom* targetroom = FindRoom(target);
+
+		if(targetroom == NULL)
+			throw runtime_error("No, you can't make an exit to a room that doesn't exist! Bad " + p->playername + "!");
+
+		room->exits[direction] = target;
+
+		room->SaveRoom(vnum);
+		*p << "There is now an exit from this room to room " << target << " in the '" << direction << "' direction.\n";
+	}
+}
+
+void DoRoom(tPlayer* p, istream& sArgs)
+{
+	string action = GetWord(sArgs, "You forgot the verb. Do /help /room if you need it.", "Eh?");
+
+	if(ciStringEqual(action, "add"))
+		return DoRoomAdd(p, sArgs);
+	else if(ciStringEqual(action, "delete"))
+		return DoRoomDelete(p, sArgs);
+	else if(ciStringEqual(action, "name"))
+		return DoRoomRename(p, sArgs);
+	else if(ciStringEqual(action, "desc"))
+		return DoRoomDescribe(p, sArgs);
+	else if(ciStringEqual(action, "exit"))
+		return DoRoomExit(p, sArgs);
+
+	throw runtime_error("Sorry, I have no idea what to do for '/room " + action + "'");
+}
 
 void DoShutdown(tPlayer * p, istream & sArgs)
 {
@@ -289,7 +486,7 @@ void DoTeleport(tPlayer * p, istream & sArgs)
 {
 	tPlayer* pTarget;
 	string name;
-	int room;
+	int room = 0;
 
 	sArgs >> name;
 
@@ -332,6 +529,10 @@ void DoInfo(tPlayer * p, istream & sArgs)
 	*p << "\n";
 } // end of DoShowFlags
 
+void DoNothing(tPlayer * p, istream & sArgs)
+{
+	return; // Do nothing, like the title says.
+}
 
 void ProcessCommand(tPlayer * p, istream& sArgs)
 {
@@ -369,8 +570,7 @@ void LoadCommands()
 	commandmap["/me"]        = new tCommand("/me",                           DoEmote);
 	commandmap["/who"]       = new tCommand("/who",                          DoWho);
 	commandmap["/tp"]        = new tCommand("/tp",        TpCanExecute,      DoTeleport);
-	commandmap["/setflag"]   = new tCommand("/setflag",   AdminCanExecute,   DoSetFlag);
-	commandmap["/clearflag"] = new tCommand("/clearflag", AdminCanExecute,   DoClearFlag);
+	commandmap["/flag"]      = new tCommand("/flag",      AdminCanExecute,   DoFlag);
 	commandmap["/shutdown"]  = new tCommand("/shutdown",  AdminCanExecute,   DoShutdown);
 	commandmap["/info"]      = new tCommand("/info",      AdminCanExecute,   DoInfo);
 	commandmap["/say"]       = new tCommand("/say",       GaglessCanExecute, DoSay);
@@ -380,4 +580,5 @@ void LoadCommands()
 	commandmap["/msg"]       = commandmap["/tell"];
 	commandmap["/m"]         = commandmap["/tell"];
 	commandmap["/shout"]     = new tCommand("/shout",     GaglessCanExecute, DoShout);
+	commandmap["/room"]      = new tCommand("/room",      AdminCanExecute,   DoRoom);
 } // end of LoadCommands

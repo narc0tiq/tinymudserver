@@ -66,7 +66,7 @@ tRoom* LoadRoom(const int& vnum)
 	}
 
 	tRoom* newroom = new tRoom(roomname, roomdesc);
-	
+
 	for( TiXmlNode* node = xmleExits->FirstChild( "exit" );
 		 node;
 		 node = node->NextSibling( "exit" ) )
@@ -120,4 +120,56 @@ tRoom* FindRoom(const int& vnum)
 	}
 
 	return roomiter->second;
+
+void DeleteRoom(const int& vnum)
+{
+	string roomfile = MAKE_STRING( ROOMS_DIR << vnum << ROOMS_EXT );
+
+	unlink(roomfile.c_str());
+}
+
+void tRoom::SaveRoom(const int& vnum)
+{
+	string roomfile = MAKE_STRING(ROOMS_DIR << vnum << ROOMS_EXT);
+	TiXmlDocument doc(roomfile);
+
+	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+	doc.LinkEndChild(decl);
+
+	TiXmlElement* elRoom = new TiXmlElement("room");
+	elRoom->SetAttribute("name", this->roomname);
+	doc.LinkEndChild(elRoom);
+
+	TiXmlElement* elDesc = new TiXmlElement("description");
+	elRoom->LinkEndChild(elDesc);
+
+	TiXmlText* txtDesc = new TiXmlText(this->description);
+	txtDesc->SetCDATA(true);
+	elDesc->LinkEndChild(txtDesc);
+
+	TiXmlElement* elExits = new TiXmlElement("exits");
+	elRoom->LinkEndChild(elExits);
+
+	for(tExitMapIterator iter = this->exits.begin(); iter != this->exits.end(); ++iter)
+	{
+		TiXmlElement* el = new TiXmlElement("exit");
+		el->SetAttribute("direction", iter->first);
+		el->SetAttribute("target", iter->second);
+
+		elExits->LinkEndChild(el);
+	}
+
+	if(!doc.SaveFile())
+		throw runtime_error(MAKE_STRING("Trouble saving the room: " << doc.ErrorDesc()));
+}
+
+bool RoomIsEmpty(const int& vnum)
+{
+	for(tPlayerListIterator iter = playerlist.begin(); iter != playerlist.end(); ++iter)
+	{
+		if(((tPlayer*)(*iter))->room == vnum)
+			return false;
+	}
+
+	return true;
 }
