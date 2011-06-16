@@ -84,6 +84,8 @@ string TextFormatting( string sMessageText, class tPlayer *p )
 	sMessageText = FindAndReplace(sMessageText, "[RCP]",  "\e[u");
 	sMessageText = FindAndReplace(sMessageText, "[HOME]", "\e[H");
 	sMessageText = FindAndReplace(sMessageText, "[EL]", "\e[2K");
+	sMessageText = FindAndReplace(sMessageText, "[bold]",     "\e[1m");
+	sMessageText = FindAndReplace(sMessageText, "\\]",     "]");
 	if( p->curhp < p->maxhp / 3 )
 		sprintf( tmp, "\e[1;31m%d", p->curhp );
 	else if( p->curhp < ( p->maxhp / 3 ) << 1 )

@@ -108,8 +108,6 @@ void tPlayer::Load()
 	TiXmlNode     *node = 0;
 	bool loadOkay = xmlDoc.LoadFile();
 
-	printf( "hello\n" );
-
 	if( loadOkay )
 	{
 		TiXmlHandle xmlDocHandle( &xmlDoc );
