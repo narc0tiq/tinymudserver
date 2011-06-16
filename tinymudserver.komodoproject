@@ -37,6 +37,8 @@
 </file>
 <file id="51e88f62-beae-4ae1-ad4e-392a7cf13e67" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="strings.h" url="include/strings.h">
 </file>
+<file id="7d350556-93be-4987-bb12-8a099785d1c1" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="log.h" url="include/log.h">
+</file>
 <file id="945f5b2c-96a8-4e8f-8368-45386d788e08" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="command.h" url="include/command.h">
 </file>
 <file id="da74b15f-7cd0-459d-83fc-cc0438a15f48" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="globals.h" url="include/globals.h">
@@ -46,6 +48,8 @@
 <file id="e8204e74-0470-4819-8e45-2621e1379e16" idref="5a2cdfc6-9843-43a3-9591-bbab703b5a05" name="constants.h" url="include/constants.h">
 </file>
 <file id="06028f66-ee39-46de-8013-fdc5cd81664d" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="room.cpp" url="source/room.cpp">
+</file>
+<file id="18ec2472-3d58-478a-b400-d89ba38ce604" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="log.cpp" url="source/log.cpp">
 </file>
 <file id="4766724c-e428-4308-af19-c82f561401bd" idref="cd66c0d4-370a-446c-ba73-9d8635aca5c1" name="player.cpp" url="source/player.cpp">
 </file>

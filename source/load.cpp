@@ -101,6 +101,8 @@ void LoadScreens()
 // build up our commands map and connection states
 void LoadThings()
 {
+	SystemLog.Log( "LoadThings()" );
+	
 	LoadMessages();
 
 	LoadCommands();

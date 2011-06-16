@@ -5,6 +5,7 @@
 #include "player.h" // for player list
 #include "room.h" // for rooms and exits
 #include "command.h" // command lists
+#include "log.h"
 
 // bad player names
 extern std::set<std::string, ciLess> badnameset;
@@ -37,3 +38,6 @@ extern string screenLayout;
 string TextFormatting( string sMessageText, class tPlayer *p );
 
 int dieRoll( int sides );
+
+//Loging functions
+extern TextLog SystemLog;
