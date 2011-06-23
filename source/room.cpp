@@ -97,23 +97,6 @@ tRoom* LoadRoom(const int& vnum)
 	return newroom;
 }
 
-tRoom* FindRoom(const int& vnum)
-{
-	tRoomMapIterator roomiter = roommap.find( vnum );
-
-	if (roomiter == roommap.end())
-	{
-		tRoom* room = LoadRoom( vnum );
-
-		if( room == NULL )
-			throw runtime_error( MAKE_STRING( "Room number " << vnum << " does not exist." ));
-
-		return room;
-	}
-
-	return roomiter->second;
-}
-
 void DeleteRoom(const int& vnum)
 {
 	string roomfile = MAKE_STRING( ROOMS_DIR << vnum << ROOMS_EXT );
