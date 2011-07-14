@@ -541,9 +541,18 @@ void ProcessCommand(tPlayer * p, istream& sArgs)
 	sArgs >> command >> ws; // get command, eat whitespace after it
 
 	// First, is it a command?
-	tCommandMapIterator command_iter = commandmap.find(command);
-	if(command_iter != commandmap.end())
-		return command_iter->second->Execute(p, sArgs);
+	tCommandMapIterator command_iter;
+	int len = command.size();
+	for(
+			command_iter = commandmap.begin();
+			command_iter != commandmap.end();
+			command_iter++
+	) {
+		if(command_iter->first.substr(0, len) == command) {
+			return command_iter->second->Execute(p, sArgs);
+		}
+	}
+	
 
 	// If not, is it a direction in the current room?
 	tRoom* r = FindRoom(p->room);
@@ -563,7 +572,6 @@ void ProcessCommand(tPlayer * p, istream& sArgs)
 void LoadCommands()
 {
 	commandmap["/look"]      = new tCommand("/look",                         DoLook);
-	commandmap["/l"]         = commandmap["/look"];
 	commandmap["/help"]      = new tCommand("/help",                         DoHelp);
 	commandmap["/save"]      = new tCommand("/save",                         DoSave);
 	commandmap["/quit"]      = new tCommand("/quit",                         DoQuit);
@@ -578,7 +586,6 @@ void LoadCommands()
 	commandmap["/tell"]      = new tCommand("/tell",      GaglessCanExecute, DoTell);
 	commandmap["/whisper"]   = commandmap["/tell"];
 	commandmap["/msg"]       = commandmap["/tell"];
-	commandmap["/m"]         = commandmap["/tell"];
 	commandmap["/shout"]     = new tCommand("/shout",     GaglessCanExecute, DoShout);
 	commandmap["/room"]      = new tCommand("/room",      AdminCanExecute,   DoRoom);
 } // end of LoadCommands
