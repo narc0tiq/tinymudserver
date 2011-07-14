@@ -572,7 +572,6 @@ void ProcessCommand(tPlayer * p, istream& sArgs)
 void LoadCommands()
 {
 	commandmap["/look"]      = new tCommand("/look",                         DoLook);
-	commandmap["/l"]         = commandmap["/look"];
 	commandmap["/help"]      = new tCommand("/help",                         DoHelp);
 	commandmap["/save"]      = new tCommand("/save",                         DoSave);
 	commandmap["/quit"]      = new tCommand("/quit",                         DoQuit);
@@ -587,7 +586,6 @@ void LoadCommands()
 	commandmap["/tell"]      = new tCommand("/tell",      GaglessCanExecute, DoTell);
 	commandmap["/whisper"]   = commandmap["/tell"];
 	commandmap["/msg"]       = commandmap["/tell"];
-	commandmap["/m"]         = commandmap["/tell"];
 	commandmap["/shout"]     = new tCommand("/shout",     GaglessCanExecute, DoShout);
 	commandmap["/room"]      = new tCommand("/room",      AdminCanExecute,   DoRoom);
 } // end of LoadCommands
