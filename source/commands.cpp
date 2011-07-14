@@ -546,7 +546,7 @@ void ProcessCommand(tPlayer * p, istream& sArgs)
 	for(
 			command_iter = commandmap.begin();
 			command_iter != commandmap.end();
-			command_iter++;
+			command_iter++
 	) {
 		if(command_iter->first.substr(0, len) == command) {
 			return command_iter->second->Execute(p, sArgs);
